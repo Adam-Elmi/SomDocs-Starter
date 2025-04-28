@@ -1,0 +1,39 @@
+{
+    "tab_icon": "/somdoc.svg",
+    "logo": {
+        "icon": {
+            "path": "/somdoc.svg",
+            "styles": {
+                "width": 16,
+                "height": 16
+            }
+        },
+        "text": {
+            "content": "",
+            "font_family": "Grand Hotel",
+            "font_size": "1.2rem",
+            "text_color": "#cdf",
+            "bold": "",
+            "italic": ""
+        }
+    },
+    "sections": {
+        "contents": [],
+        "styles": {
+            "enable": true,
+            "bg": "#cfd",
+            "bold": "",
+            "italic": "",
+            "text_color": "#555",
+            "border_radius": "5px",
+            "font_size": "0.9rem",
+            "font_family": "Rubik",
+            "hover": {
+                "text_color": "white",
+                "bg_color": "red"
+            }
+        }
+    },
+    "enable_search": false,
+    "repo": ""
+}

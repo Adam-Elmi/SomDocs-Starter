@@ -1,0 +1,63 @@
+---
+import { sections , logo } from "../../somdocs.config.json";
+import List from "./List.astro";
+type DefaultSection = {
+  name: string;
+  url: string;
+};
+
+type Props = {
+  defaultSections?: DefaultSection[];
+};
+
+const { defaultSections = [{name: "Home", url: "/"}, {name: "Docs", url: "docs"}] } = Astro.props as Props;
+const {contents } = sections;
+const keys = Object.keys(logo);
+---
+
+<nav class="w-full bg-[#0d121c] p-2">
+  <!-- Left Side -->
+  <div class="flex items-center gap-5">
+    <!-- Logo and Sections -->
+     <div class="flex items-center gap-2">
+      {
+        <img src={logo.icon.path} width={logo.icon.styles.width} height={logo.icon.styles.height}/>
+        <a href="/" style=
+        {
+          {
+            color: logo.text.text_color,
+            fontFamily: logo.text.font_family, 
+            fontWeight: logo.text.bold, 
+            fontStyle: logo.text.italic, 
+            fontSize: logo.text.font_size
+          }
+        }
+        >
+          {logo.text.content}
+        </a>
+      }
+     </div>
+    <ul class="flex gap-2">
+      {
+        contents && contents.length > 0
+          ? contents.map((section: DefaultSection) => (
+              <List id="section" url={section.url && section.url}>
+                {section.name && section.name}
+              </List>
+            ))
+          : defaultSections.map((default_section) => (
+              <List id="section" url={default_section.url}>
+                {default_section.name}
+              </List>
+            ))
+      }
+    </ul>
+  </div>
+  <!-- Right Side -->
+  <div>
+    <!-- Search -->
+    <div></div>
+    <!-- Theme & github icon -->
+    <div></div>
+  </div>
+</nav>
