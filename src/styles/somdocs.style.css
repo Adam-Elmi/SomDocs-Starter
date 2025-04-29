@@ -16,6 +16,7 @@
 ------------------------------------------
 
  */
+
 #section {
   /* background-color: ;
     color: ;
@@ -26,8 +27,8 @@
     border-radius: ; */
 }
 #section:hover {
-  background-color: #0f172b;
-  color: white;
+  /* background-color: #0f172b;
+  color: white; */
   /* border: ; */
 }
 
@@ -45,8 +46,8 @@
 }
 
 .active-section {
-  /* background-color: ;
-    color: ;
+  background-color: red;
+    /* color: ;
     font-weight: normal;
     font-style: ;
     border: ;
