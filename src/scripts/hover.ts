@@ -1,19 +1,26 @@
-import { sections } from "../../somdocs.config.json";
-const { styles } = sections;
-const { bg_color, text_color } = styles.hover;
-const all_sections = document.querySelectorAll("#section");
+// import { sections } from "../../somdocs.config.json";
+// (() => {
+//   const { styles } = sections;
+//   const { hover } = styles;
+//   const all_sections = document.querySelectorAll("#section");
 
-if (all_sections) {
-  all_sections.forEach((section: any) => {
-    section.addEventListener("mouseover", () => {
-        section.style.backgroundColor = bg_color;
-        section.style.color = text_color;
-      });
-      section.addEventListener("mouseout", () => {
-        section.style.backgroundColor = styles.bg;
-        section.style.color = styles.text_color;
-      });
-    });
-  }
-  
-  console.log("Hello")
+//   if (all_sections) {
+//     all_sections.forEach((section) => {
+//       let element = section as HTMLElement;
+//       element.addEventListener("mouseover", () => {
+//         if (!element.classList.contains("active_section")) {
+//           element.style.backgroundColor = hover.bg_color;
+//           element.style.color = hover.text_color;
+//           element.style.border = hover.border;
+//         }
+//       });
+//       element.addEventListener("mouseout", () => {
+//         if (!element.classList.contains("active_section")) {
+//           element.style.backgroundColor = styles.bg;
+//           element.style.color = styles.text_color;
+//           element.style.border = styles.border;
+//         }
+//       });
+//     });
+//   }
+// })();
