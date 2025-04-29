@@ -1,0 +1,54 @@
+/*
+------------------------------------------
+    Available Fonts:
+    1- Open Sans
+        - font-family: "Open Sans"
+    2- Sansation
+        - font-family: "Sansation"
+    3- Roboto
+        - font-family: "Roboto"
+    4- Lato
+        - font-family: "Lato"
+    5- Rubik
+        - font-family: "Rubik"
+    6- Grand Hotel 
+        - font-family: "Grand Hotel"
+------------------------------------------
+
+ */
+#section {
+  /* background-color: ;
+    color: ;
+    font-weight: ;
+    font-style: ;
+    font-size: ;
+    border: ;
+    border-radius: ; */
+}
+#section:hover {
+  background-color: #0f172b;
+  color: white;
+  /* border: ; */
+}
+
+#logo-text {
+  /* font-family: ;
+    font-size: ;
+    color: ;
+    font-weight: normal;
+    font-style: ; */
+}
+
+#logo-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.active-section {
+  /* background-color: ;
+    color: ;
+    font-weight: normal;
+    font-style: ;
+    border: ;
+    border-radius: ; */
+}
