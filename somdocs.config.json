@@ -34,6 +34,12 @@
     ]
   },
   "enable_search": false,
+  "footer_sections": [
+    {
+      "name": "Home",
+      "url": "/"
+    }
+  ],
   "repo": "",
   "right_side": "contents"
 }
