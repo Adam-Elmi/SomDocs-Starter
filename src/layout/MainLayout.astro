@@ -1,6 +1,5 @@
 ---
 import MainHead from "./MainHead.astro";
-import MainFooter from "./MainFooter.astro";
 import SearchComponent from "../components/SearchComponent.astro";
 import "../styles/global.css";
 import "../styles/somdocs.style.css";
@@ -8,12 +7,13 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <MainHead title={title} />
   <body>
     <slot />
     <SearchComponent />
-  </body><MainFooter />
+  </body>
 </html>
 <script src="../scripts/search_visibilty.ts"></script>
 <script src="../scripts/sidebar_visibilty.ts"></script>
+<script src="../scripts/theme_toggle.ts"></script>
