@@ -1,0 +1,51 @@
+---
+import { sections, logo } from "../../somdocs.config.json";
+import List from "./List.astro";
+
+type DefaultSection = {
+  name: string;
+  url: string;
+  show_arrow: boolean;
+};
+
+type Props = {
+  defaultSections?: DefaultSection[];
+  is_small_screen?: boolean;
+};
+
+const {
+  defaultSections = [
+    { name: "Home", url: "/", show_arrow: false },
+    { name: "Docs", url: "/docs", show_arrow: false }, // Added leading slash for consistency
+  ],
+  is_small_screen = false,
+} = Astro.props as Props;
+
+const { contents } = sections;
+---
+
+<ul
+  class={`${is_small_screen ? "hidden max-[900px]:flex" : "flex max-[900px]:hidden"} gap-2 max-[900px]:flex-col max-[900px]:border-b-[1.5px] border-slate-400/15`}
+>
+  {
+    contents && contents.length > 0
+      ? contents.map((section: DefaultSection) => (
+          <List
+            id="section"
+            url={section.url && section.url}
+            show_arrow={section.show_arrow}
+          >
+            {section.name && section.name}
+          </List>
+        ))
+      : defaultSections.map((default_section) => (
+          <List
+            id="section"
+            url={default_section.url}
+            show_arrow={default_section.show_arrow}
+          >
+            {default_section.name}
+          </List>
+        ))
+  }
+</ul>
