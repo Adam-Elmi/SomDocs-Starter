@@ -8,14 +8,12 @@ import PageContents from "../components/PageContents.astro";
 <MainLayout title="Hello">
   <div class="flex flex-col fixed inset-0">
     <Nav />
-    <main class="flex bg-red-200">
-      <Sidebar/>
-      <div class="bg-[#101012] flex-1 p-2">
-        <div id="content" class="pb-20 h-screen overflow-y-auto">
-			
-		</div>
+    <main class="flex">
+      <Sidebar />
+      <div class="bg-[#101012] flex-1 p-2 max-[900px]:w-full">
+        <div id="content" class="pb-20 h-screen overflow-y-auto"></div>
       </div>
-      <PageContents/>
+      <PageContents />
     </main>
   </div>
 </MainLayout>
