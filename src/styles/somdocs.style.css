@@ -18,26 +18,26 @@
  */
 
 #section {
-  /* background-color: ;
-    color: ;
-    font-weight: ;
-    font-style: ;
-    font-size: ;
-    border: ;
-    border-radius: ; */
+  /* background-color: ; */
+  color: #444;
+  /* font-weight: ; */
+  /* font-style: ; */
+  /* font-size: ; */
+  /* border: ; */
+  border-radius: 5px;
 }
-#section:hover {
-  /* background-color: #0f172b;
-  color: white; */
+#section:not(.active-section):hover {
+  /* background-color: #0f172b; */
+  color: white;
   /* border: ; */
 }
 
 #logo-text {
-  /* font-family: ;
-    font-size: ;
-    color: ;
-    font-weight: normal;
-    font-style: ; */
+  /* font-family: ; */
+  /* font-size: ; */
+  /* color: ; */
+  /* font-weight: normal; */
+  /* font-style: ; */
 }
 
 #logo-icon {
@@ -45,11 +45,22 @@
   height: 24px;
 }
 
-.active-section {
-  background-color: red;
-    /* color: ;
-    font-weight: normal;
-    font-style: ;
-    border: ;
-    border-radius: ; */
+.active-section:not(.external-link) {
+  background: #ff416c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ff4b2b,
+    #ff416c
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ff4b2b,
+    #ff416c
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  color: white !important;
+  /* font-weight: ; */
+  /* font-style: ; */
+  /* border: ; */
+  /* border-radius: ; */
 }
