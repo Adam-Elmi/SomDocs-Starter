@@ -29,5 +29,9 @@
       e.preventDefault();
       search_input?.focus();
     }
+    if (e.key === "Escape") {
+      (search_main_container as HTMLElement).style.display = "none";  
+      e.preventDefault();
+    }
   });
 })();
