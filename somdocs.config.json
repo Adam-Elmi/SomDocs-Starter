@@ -8,26 +8,32 @@
     "contents": [
       {
         "name": "Home",
-        "url": "/"
+        "url": "/",
+        "show_arrow": false
       },
       {
         "name": "Blog",
-        "url": "/"
+        "url": "/",
+        "show_arrow": false
       },
       {
         "name": "Docs",
-        "url": "/"
+        "url": "/docs",
+        "show_arrow": false
       },
       {
         "name": "Contribute",
-        "url": "/"
+        "url": "/google.com",
+        "show_arrow": true
       },
       {
         "name": "About",
-        "url": "/"
+        "url": "/",
+        "show_arrow": false
       }
     ]
   },
   "enable_search": false,
-  "repo": ""
+  "repo": "",
+  "right_side": "contents"
 }
