@@ -1,7 +1,7 @@
 ---
 import { sections, logo } from "../../somdocs.config.json";
 import List from "./List.astro";
-import SearchIcon from "../icons/SearchIcon.astro";
+import SearchBtn from "./SearchBtn.astro";
 import GithubIcon from "../icons/GithubIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
 import MenuIcon from "../icons/MenuIcon.astro";
@@ -9,6 +9,7 @@ import "../styles/somdocs.style.css";
 type DefaultSection = {
   name: string;
   url: string;
+  show_arrow: boolean;
 };
 
 type Props = {
@@ -17,8 +18,8 @@ type Props = {
 
 const {
   defaultSections = [
-    { name: "Home", url: "/" },
-    { name: "Docs", url: "docs" },
+    { name: "Home", url: "/", show_arrow: false },
+    { name: "Docs", url: "docs", show_arrow: false },
   ],
 } = Astro.props as Props;
 const { contents } = sections;
@@ -26,22 +27,17 @@ const keys = Object.keys(logo);
 ---
 
 <nav
-  class="w-full bg-[#0d121c] p-2 text-white flex justify-between items-center"
+  class="w-full bg-[#101012] p-2 border-b border-gray-700/50 text-white flex justify-between items-center"
 >
   <!-- Left Side -->
-  <div class="flex items-center gap-5 max-[900px]:w-full max-[900px]:justify-between">
+  <div
+    class="flex items-center gap-5 max-[900px]:w-full max-[900px]:justify-between"
+  >
     <!-- Logo and Sections -->
     {
       (
-        <a
-          id="logo-text"
-          href="/"
-          class="flex items-center gap-2"
-        >
-          <img
-            id="logo-icon"
-            src={logo.icon}
-          />
+        <a id="logo-text" href="/" class="flex items-center gap-2">
+          <img id="logo-icon" src={logo.icon} />
           {logo.text}
         </a>
       )
@@ -50,12 +46,20 @@ const keys = Object.keys(logo);
       {
         contents && contents.length > 0
           ? contents.map((section: DefaultSection) => (
-              <List id="section" url={section.url && section.url}>
+              <List
+                id="section"
+                url={section.url && section.url}
+                show_arrow={section.show_arrow}
+              >
                 {section.name && section.name}
               </List>
             ))
           : defaultSections.map((default_section) => (
-              <List id="section" url={default_section.url}>
+              <List
+                id="section"
+                url={default_section.url}
+                show_arrow={default_section.show_arrow}
+              >
                 {default_section.name}
               </List>
             ))
@@ -63,21 +67,13 @@ const keys = Object.keys(logo);
     </ul>
     <!-- Menu -->
     <button class="hidden max-[900px]:block text-slate-300 cursor-pointer">
-      <MenuIcon width="30" height="30"/>
+      <MenuIcon width="30" height="30" />
     </button>
   </div>
   <!-- Right Side -->
   <div class="flex gap-2 items-center max-[900px]:hidden">
-    <button
-      class="flex gap-2 items-center bg-slate-900 cursor-pointer border-[1.5px] border-slate-800 p-2 rounded-lg text-sm"
-    >
-      <!-- Search Button -->
-      <div class="flex gap-2 items-center">
-        <SearchIcon width="16" height="16" />
-        Search...
-      </div>
-      <span class="bg-gray-700 py-1 px-2 rounded-md text-[12px]">Ctrl + K</span>
-    </button>
+    <!-- Search Button -->
+    <SearchBtn />
     <!-- Theme & github icon -->
     <div class="flex gap-3 items-center">
       <button class="cursor-pointer">
