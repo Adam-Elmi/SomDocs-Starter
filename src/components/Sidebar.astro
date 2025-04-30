@@ -9,7 +9,7 @@ import { logo } from "../../somdocs.config.json";
 
 <aside
   id="sidebar"
-  class="bg-[#101012] w-[300px] border-r border-gray-700/50 text-slate-200 hidden flex-col max-[900px]:fixed inset-0 max-[900px]:w-full"
+  class="dark:bg-[#101012] bg-slate-200 w-[300px] border-r border-gray-700/50 text-slate-200 flex flex-col max-[900px]:hidden max-[900px]:fixed inset-0 max-[900px]:w-full"
 >
   <!-- Upper Layer  -->
   <div class="max-[900px]:flex hidden justify-between items-center w-full">
@@ -28,13 +28,14 @@ import { logo } from "../../somdocs.config.json";
   >
     <span class="font-semibold">Theme</span>
     <button
+      id="theme-toggle-btn"
       class="cursor-pointer p-2 rounded border-[1.5px] border-slate-400/15 hover:bg-gray-900/40"
     >
       <MoonIcon width="20" height="20" />
     </button>
   </div>
   <!-- Sections & Contents -->
-  <div class="overflow-auto pb-30 h-screen overflow-y-auto">
+  <div class="">
     <SectionsComponent is_small_screen={true} />
     <SidebarContents />
     <SidebarContents />
