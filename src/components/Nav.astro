@@ -6,24 +6,7 @@ import GithubIcon from "../icons/GithubIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
 import MenuIcon from "../icons/MenuIcon.astro";
 import "../styles/somdocs.style.css";
-type DefaultSection = {
-  name: string;
-  url: string;
-  show_arrow: boolean;
-};
-
-type Props = {
-  defaultSections?: DefaultSection[];
-};
-
-const {
-  defaultSections = [
-    { name: "Home", url: "/", show_arrow: false },
-    { name: "Docs", url: "docs", show_arrow: false },
-  ],
-} = Astro.props as Props;
-const { contents } = sections;
-const keys = Object.keys(logo);
+import SectionsComponent from "./SectionsComponent.astro";
 ---
 
 <nav
@@ -42,40 +25,18 @@ const keys = Object.keys(logo);
         </a>
       )
     }
-    <ul class="flex gap-2 max-[900px]:hidden">
-      {
-        contents && contents.length > 0
-          ? contents.map((section: DefaultSection) => (
-              <List
-                id="section"
-                url={section.url && section.url}
-                show_arrow={section.show_arrow}
-              >
-                {section.name && section.name}
-              </List>
-            ))
-          : defaultSections.map((default_section) => (
-              <List
-                id="section"
-                url={default_section.url}
-                show_arrow={default_section.show_arrow}
-              >
-                {default_section.name}
-              </List>
-            ))
-      }
-    </ul>
+    <SectionsComponent/>
     <!-- Menu -->
-    <button class="hidden max-[900px]:block text-slate-300 cursor-pointer">
+    <button id="open-btn" class="hidden max-[900px]:block text-slate-300 cursor-pointer">
       <MenuIcon width="30" height="30" />
     </button>
   </div>
   <!-- Right Side -->
-  <div class="flex gap-2 items-center max-[900px]:hidden">
+  <div class="flex gap-4 items-center max-[900px]:hidden">
     <!-- Search Button -->
     <SearchBtn />
     <!-- Theme & github icon -->
-    <div class="flex gap-3 items-center">
+    <div class="flex gap-4 items-center">
       <button class="cursor-pointer">
         <MoonIcon width="20" height="20" />
       </button>
