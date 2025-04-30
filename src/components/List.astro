@@ -1,13 +1,21 @@
 ---
-const { id, url = "" } = Astro.props;
+import ArrowIcon from "../icons/ArrowIcon.astro";
+const { id, url = "", show_arrow = false } = Astro.props;
 ---
 
 <li
   id={id}
-  class="p-1 transition-colors duration-75 cursor-pointer"
+  class={`py-1 px-3 transition-colors duration-75 cursor-pointer flex gap-2 items-center ${show_arrow ? "external-link" : ""}`}
 >
-  <p class={url}>
+  <a href={url}>
     <slot />
-  </p>
+  </a>
+  {
+    show_arrow ? (
+      <span>
+        <ArrowIcon width="16" height="16" style="transform:rotate(45deg)" />
+      </span>
+    ) : null
+  }
 </li>
 <script src="/src/scripts/currentSection.ts"></script>
