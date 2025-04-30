@@ -2,16 +2,17 @@
   const sidebar = document.getElementById("sidebar");
   const close_btn = document.getElementById("close-btn");
   const open_btn = document.getElementById("open-btn");
+  
   if (close_btn) {
     close_btn.addEventListener("click", () => {
       (sidebar as HTMLElement).style.display = "none";
-      console.log("Close");
+      document.body.style.overflow = "auto";
     });
   }
   if (open_btn) {
     open_btn.addEventListener("click", () => {
       (sidebar as HTMLElement).style.display = "flex";
-      console.log("Open");
+      document.body.style.overflow = "hidden";
     });
   }
   window.addEventListener("resize", () => {
