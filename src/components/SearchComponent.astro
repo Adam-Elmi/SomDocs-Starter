@@ -1,0 +1,60 @@
+---
+import SearchIcon from "../icons/SearchIcon.astro";
+import SearchResultIcon from "../icons/SearchResultIcon.astro";
+---
+<!-- Background -->
+<div
+  id="search-main-container"
+  class="fixed inset-0 backdrop-blur-md hidden justify-center items-start pt-10 w-full bg-[#101012]/70"
+>
+<!-- Search Container -->
+  <div
+    id="search-container"
+    class="bg-[#101012] max-w-[800px] overflow-hidden w-full rounded-lg border-[1.5px] border-gray-500/20"
+  >
+  <!-- Result Header -->
+    <div class="flex gap-2 items-center border-b-[1.2px] border-gray-500/20 px-2">
+      <span class="text-slate-500">
+        <SearchIcon width="20" height="20" />
+      </span>
+      <input
+        type="search"
+        name="seach-input"
+        id="search-input"
+        placeholder="Search..."
+        class="w-full outline-none p-2 text-slate-200"
+      />
+    </div>
+    <!-- Search Result Container -->
+    <div id="search-result-container">
+      <div
+        id="result-header"
+        class="p-2 border-b border-gray-500/20 flex gap-2 items-center justify-between"
+      >
+        <span class="text-slate-500 flex gap-1 items-center">
+          <SearchResultIcon width="22" height="22" />
+          Result
+        </span>
+        <span
+          class="px-2 py-1 rounded-md border border-gray-500/20 text-slate-200"
+        >
+          0
+        </span>
+      </div>
+      <div
+        id="search-result"
+        class="overflow-y-scroll max-h-[300px] text-center flex justify-center items-center text-slate-300 p-2 leading-8 border-b-[1.2px] border-gray-800/40 min-h-[100px]"
+      >
+      No result found
+      </div>
+    </div>
+    <!-- Footer -->
+     <div class="flex justify-end items-center p-2 italic">
+        <div class="flex gap-2 items-center text-slate-700">
+            Press
+            <span class="px-2 py-1 rounded-md text-orange-400 text-sm border border-gray-500/20">ESC</span>
+            to close
+        </div>
+     </div>
+  </div>
+</div>
