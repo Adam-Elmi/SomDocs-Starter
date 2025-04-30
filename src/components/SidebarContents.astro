@@ -1,0 +1,28 @@
+---
+import DocIcon from "../icons/DocIcon.astro";
+import { compressText } from "../scripts/utils";
+---
+<div class="p-2">
+    <h1 class="font-semibold">Get started</h1>
+    <ul class="ml-1 flex flex-col gap-1 px-1">
+      {
+        [
+          "Introduction",
+          "Create a project",
+          "Set up your environment Set up your environment",
+          "Start developing",
+          "Introduction",
+          "Create a project",
+          "Set up your environment Set up your environment",
+          "Start developing",
+        ].map((con) => (
+          <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
+            <span>
+              <DocIcon width="16" height="16" />
+            </span>
+            {compressText(con, 30)}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
