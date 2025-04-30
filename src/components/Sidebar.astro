@@ -1,17 +1,41 @@
 ---
 import SidebarContents from "./SidebarContents.astro";
 import SearchBtn from "../components/SearchBtn.astro";
+import SectionsComponent from "./SectionsComponent.astro";
+import CloseIcon from "../icons/CloseIcon.astro";
+import MoonIcon from "../icons/MoonIcon.astro";
+import { logo } from "../../somdocs.config.json";
 ---
 
 <aside
-  class="bg-[#101012] w-[300px] border-r border-gray-700/50 text-slate-200 flex flex-col"
+  id="sidebar"
+  class="bg-[#101012] w-[300px] border-r border-gray-700/50 text-slate-200 hidden flex-col max-[900px]:fixed inset-0 max-[900px]:w-full"
 >
+  <!-- Upper Layer  -->
+  <div class="max-[900px]:flex hidden justify-between items-center w-full">
+    <img id="logo-icon" src={logo.icon} alt={logo.text} />
+    <button id="close-btn" class="cursor-pointer p-2 text-slate-400">
+      <CloseIcon width="24" height="24" />
+    </button>
+  </div>
   <!-- Header -->
   <div class="border-b border-slate-500/20 p-2">
-    <SearchBtn is_full=true/>
+    <SearchBtn is_full={true} />
   </div>
-  <!-- Contents -->
+  <!-- Theme -->
+  <div
+    class="max-[900px]:flex hidden gap-3 items-center justify-between w-full p-2 border-b border-gray-700/50"
+  >
+    <span class="font-semibold">Theme</span>
+    <button
+      class="cursor-pointer p-2 rounded border-[1.5px] border-slate-400/15 hover:bg-gray-900/40"
+    >
+      <MoonIcon width="20" height="20" />
+    </button>
+  </div>
+  <!-- Sections & Contents -->
   <div class="overflow-auto pb-30 h-screen overflow-y-auto">
+    <SectionsComponent is_small_screen={true} />
     <SidebarContents />
     <SidebarContents />
     <SidebarContents />
