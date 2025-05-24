@@ -3,63 +3,146 @@ import PageIcon from "../icons/PageIcon.astro";
 import { compressText } from "../scripts/utils";
 ---
 
-<div class="bg-[#101012] w-[200px] border-l border-gray-700/50 text-slate-200 p-2 max-[900px]:hidden">
-  <h1 class="flex gap-2 items-center justify-center text-[0.9rem] font-semibold mb-4">
-    <span>
-        <PageIcon width="16" height="16"/>
-    </span>
-    On this page
-  </h1>
-  <ul class="ml-1 flex flex-col gap-2 px-1">
-    {
-      [
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-        "Introduction",
-        "Create a project",
-        "Set up your environment Set up your environment",
-        "Start developing",
-      ].map((con) => (
-        <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
-          <span>
-            #
-          </span>
-          {compressText(con, 20)}
-        </li>
-      ))
-    }
+<div
+    class="bg-[#101012] w-[200px] border-l border-gray-700/50 text-slate-200 max-[900px]:hidden h-screen flex flex-col"
+>
+    <h1
+        class="flex gap-2 items-center justify-center text-[0.9rem] font-semibold p-2"
+    >
+        <span>
+            <PageIcon width="16" height="16" />
+        </span>
+        On this page
+    </h1>
+    <div class="flex-1 overflow-y-auto">
+        <ul class="ml-1 flex flex-col gap-2 px-2 pb-20">
+            {
+                [
+                    "Here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Start developing",
+                    "Introduction here",
+                    "Create a project",
+                    "Set up your environment Set up your environment",
+                    "Adam Elmi"
+                ].map((con) => (
+                    <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
+                        <span>#</span>
+                        {compressText(con, 20)}
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
 </div>
