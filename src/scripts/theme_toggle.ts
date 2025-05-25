@@ -1,34 +1,30 @@
 import apply_icon from "./apply_icon";
-(() => {
-  const theme_toggle_btns = document.querySelectorAll("#theme-toggle-btn");
-  const html = document.querySelector("html");
-  const get_theme_value = localStorage.getItem("theme-value");
 
-  function theme_value() {
-    return String((html as HTMLHtmlElement).dataset.theme);
+(() => {
+  const theme_toggle_btns: NodeListOf<HTMLButtonElement> = document.querySelectorAll("#theme-toggle-btn");
+  const html = document.documentElement as HTMLHtmlElement;
+
+  const saved_theme: string | null = localStorage.getItem("theme-value");
+  if (saved_theme) {
+    html.dataset.theme = saved_theme;
   }
 
-  if (theme_toggle_btns) {
-    theme_toggle_btns.forEach((toggle_btn) => {
-      toggle_btn.addEventListener("click", () => {
-        if ((html as HTMLHtmlElement).dataset.theme === "dark") {
-          (html as HTMLHtmlElement).dataset.theme = "light";
-        } else {
-          (html as HTMLHtmlElement).dataset.theme = "dark";
-        }
-        localStorage.setItem("theme-value", theme_value());
-        // @ts-ignore
-        apply_icon(theme_toggle_btns, html);
-      });
-    });
-    document.addEventListener("DOMContentLoaded", () => {
-      if (get_theme_value) {
-        (html as HTMLHtmlElement).dataset.theme = get_theme_value;
-      } else {
-        localStorage.setItem("theme-value", theme_value());
-      }
-      // @ts-ignore
+  function theme_value(): string {
+    return html.dataset.theme ?? "light";
+  }
+
+  document.addEventListener("DOMContentLoaded", (): void => {
+    apply_icon(theme_toggle_btns, html);
+    if (!saved_theme) {
+      localStorage.setItem("theme-value", theme_value());
+    }
+  });
+
+  theme_toggle_btns.forEach((toggle_btn: HTMLButtonElement): void => {
+    toggle_btn.addEventListener("click", (): void => {
+      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
+      localStorage.setItem("theme-value", theme_value());
       apply_icon(theme_toggle_btns, html);
     });
-  }
+  });
 })();
