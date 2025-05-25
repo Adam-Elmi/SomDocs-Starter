@@ -37,7 +37,19 @@
   "footer_sections": [
     {
       "name": "Home",
-      "url": "/"
+      "path": "/"
+    },
+    {
+      "name": "Docs",
+      "path": "/docs"
+    },
+    {
+      "name": "Contribute",
+      "path": "/contribute"
+    },
+    {
+      "name": "About",
+      "path": "/about"
     }
   ],
   "repo": "",
