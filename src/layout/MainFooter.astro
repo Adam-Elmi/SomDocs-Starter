@@ -1,7 +1,7 @@
 ---
 import GithubIcon from "../icons/GithubIcon.astro";
 import DiscordIcon from "../icons/DiscordIcon.astro";
-const sections: string[] = ["Home", "Glossary", "CLI", "About"];
+import data from "../../somdocs.config.json"
 ---
 
 <footer
@@ -9,11 +9,11 @@ const sections: string[] = ["Home", "Glossary", "CLI", "About"];
 >
   <ul class="flex gap-5 flex-wrap justify-center items-center max-[600px]:gap-4 max-[600px]:mb-5">
     {
-      sections
-        ? sections.map((section) => (
+      data.footer_sections
+        ? data.footer_sections.map((section) => (
             <li>
-              <a class="text-slate-400 italic" href={section === "Home" ? "/" : "/" + section.toLowerCase() }>
-                {section}
+              <a class="text-slate-400 italic" href={section.path}>
+                {section.name}
               </a>
             </li>
           ))
