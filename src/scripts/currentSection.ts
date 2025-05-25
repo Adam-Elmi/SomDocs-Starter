@@ -28,7 +28,9 @@ import { sections } from "../../somdocs.config.json";
         section.classList.remove("active-section")
       );
       if(parsedIndex !== undefined) {
+        if(all_sections && all_sections[parsedIndex]) {
         all_sections[parsedIndex].classList.add("active-section");
+        }
       }
     }
   }
