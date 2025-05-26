@@ -1,4 +1,4 @@
-import { sections } from "../../somdocs.config.json";
+import { sections } from "../../somdocs.data.json";
 (() => {
   const { contents } = sections;
   const all_sections = document.querySelectorAll("#section");
