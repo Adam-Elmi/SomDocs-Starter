@@ -1,0 +1,95 @@
+---
+layout: "./index.astro"
+title: Hello World
+---
+
+import Code from "../../components/Code.astro";
+import Terminal from "../../components/Terminal.astro";
+import Table from "../../components/Table.astro";
+
+# Hello Adam
+You'll want to publish a package compiled to support all Node.js LTS versions since you don't know which version the consumer will be running; the tsconfigs in this article support node 18.x and later.
+
+<Code filename="somcheat.utils.js" >
+    ```js
+    export default function getProgress(getIndex: number, getData: any, obj: any) {
+      try {
+        obj.id = obj.id.split(" ")[0].toLowerCase();
+        const index = getIndex(obj.id);
+        return index !== null
+          ? parseInt(getData(index)[obj.id]?.finished_tasks_progress)
+          : 0;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+```
+</Code>
+
+<Code filename="somcheat.utils.js" >
+    ```js
+    export default function getProgress(getIndex: number, getData: any, obj: any) {
+      try {
+        obj.id = obj.id.split(" ")[0].toLowerCase();
+        const index = getIndex(obj.id);
+        return index !== null
+          ? parseInt(getData(index)[obj.id]?.finished_tasks_progress)
+          : 0;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+```
+</Code>
+
+<Code filename="somcheat.utils.js" >
+    ```js
+    export default function getProgress(getIndex: number, getData: any, obj: any) {
+      try {
+        obj.id = obj.id.split(" ")[0].toLowerCase();
+        const index = getIndex(obj.id);
+        return index !== null
+          ? parseInt(getData(index)[obj.id]?.finished_tasks_progress)
+          : 0;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+```
+</Code>
+
+ ```js
+    console.log("Hello World");
+```
+
+<Terminal>
+  ```shell
+    npm install somcheat
+```
+</Terminal>
+
+<Terminal>
+  ```shell
+    npm install somDocs
+```
+</Terminal>
+
+<Terminal>
+  ```shell
+    npm install somGlossary
+```
+</Terminal>
+
+<Table 
+  headers={["ID", "Language", "Paradigm(s)", "First Released"]} 
+  body={[
+    { row: ["1", "JavaScript", "Event-driven, Functional, Imperative", "1995"] },
+    { row: ["2", "Python", "Object-oriented, Procedural, Functional", "1991"] },
+    { row: ["3", "Rust", "Multi-paradigm, Memory-safe, Functional", "2010"] },
+    { row: ["4", "Go", "Compiled, Concurrent, Imperative", "2009"] },
+    { row: ["5", "Java", "Object-oriented, Class-based", "1995"] },
+    { row: ["6", "C", "Procedural, Imperative", "1972"] },
+    { row: ["7", "TypeScript", "Static, Object-oriented", "2012"] },
+    { row: ["8", "Ruby", "Object-oriented, Reflective", "1995"] }
+  ]}
+/>
