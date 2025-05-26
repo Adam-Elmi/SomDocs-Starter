@@ -1,0 +1,55 @@
+{
+  "tab_icon": "/somdoc.svg",
+  "logo": {
+    "icon": "/somdoc.svg",
+    "text": ""
+  },
+  "sections": {
+    "contents": [
+      {
+        "name": "Home",
+        "url": "/",
+        "show_arrow": false
+      },
+      {
+        "name": "Blog",
+        "url": "/",
+        "show_arrow": false
+      },
+      {
+        "name": "Docs",
+        "url": "/docs",
+        "show_arrow": false
+      },
+      {
+        "name": "Contribute",
+        "url": "/google.com",
+        "show_arrow": true
+      },
+      {
+        "name": "About",
+        "url": "/",
+        "show_arrow": false
+      }
+    ]
+  },
+  "footer_sections": [
+    {
+      "name": "Home",
+      "path": "/"
+    },
+    {
+      "name": "Docs",
+      "path": "/docs"
+    },
+    {
+      "name": "Contribute",
+      "path": "/contribute"
+    },
+    {
+      "name": "About",
+      "path": "/about"
+    }
+  ],
+  "repo": ""
+}
