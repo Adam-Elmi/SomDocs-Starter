@@ -1,6 +1,8 @@
 ---
 import MainLayout from "../layout/MainLayout.astro";
 import Nav from "../components/Nav.astro";
+import Sidebar from "../components/Sidebar.astro";
+import PageContents from "../components/PageContents.astro";
 import MainFooter from "../layout/MainFooter.astro";
 ---
 
@@ -8,15 +10,17 @@ import MainFooter from "../layout/MainFooter.astro";
     <div class="flex flex-col h-screen">
         <Nav />
         <main class="flex flex-1 overflow-hidden">
+            <Sidebar />
             <div
-                id="pattern"
                 class="bg-[#171e25] flex-1 flex flex-col max-[900px]:w-full overflow-auto text-amber-50"
             >
-                <div id="content" class="flex flex-col flex-1 p-4">
+                <div id="content" class="flex flex-col flex-1 p-4 gap-5">
                     <!-- Contents -->
+                    <slot/>
                 </div>
-                <MainFooter />
+                    <MainFooter />
             </div>
+            <PageContents />
         </main>
     </div>
 </MainLayout>
