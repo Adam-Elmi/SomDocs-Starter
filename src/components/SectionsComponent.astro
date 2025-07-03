@@ -15,8 +15,7 @@ type Props = {
 
 const {
   defaultSections = [
-    { name: "Home", url: "/", show_arrow: false },
-    { name: "Docs", url: "/docs", show_arrow: false }, // Added leading slash for consistency
+    { name: "Docs", url: "/", show_arrow: false },
   ],
   is_small_screen = false,
 } = Astro.props as Props;
@@ -32,7 +31,7 @@ const { contents } = sections;
       ? contents.map((section: DefaultSection) => (
           <List
             id="section"
-            url={section.url && section.url}
+            url={section.url && (section.show_arrow ? "https://" + section.url : section.url)}
             show_arrow={section.show_arrow}
           >
             {section.name && section.name}
