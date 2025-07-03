@@ -9,6 +9,7 @@ async function getContents(path) {
     }
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }
 
@@ -27,11 +28,15 @@ async function getContents(path) {
     if (path) {
       const buffer = await fs.readFile("./src/pages/" + path);
       const readContent = buffer.toString();
+      const titleIndex = readContent.indexOf("\ntitle:");
+      if (titleIndex === -1) {
+        throw new Error(`No title found in file: ${path}`);
+      }
       const title = readContent
-        .slice(readContent.indexOf("\ntitle:") + 7)
+        .slice(titleIndex + 7)
         .trim();
-      const full_title = title
-        .slice(0, title.indexOf("\n"))
+      const newlineIndex = title.indexOf("\n");
+      const full_title = (newlineIndex !== -1 ? title.slice(0, newlineIndex) : title)
         .replaceAll('"', "");
       return full_title;
     }
@@ -44,18 +49,18 @@ async function getContents(path) {
           try {
             const con = await fs.readdir("./src/pages/" + content);
             const titles = [];
-            for (file of filterContents(con)) {
+            for (const file of filterContents(con)) {
               const title = await getTitle(content + "/" + file);
               if (title) {
                 titles.push(title);
               }
             }
             data.push({
-              1: titles,
+              content: titles,
             });
-          } catch (_) {
+          } catch (err) {
             if (filterContents(content)) {
-              data.push({ 0: await getTitle(content) });
+              data.push({content: await getTitle(content) });
             }
           }
         }
