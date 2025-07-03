@@ -7,18 +7,8 @@
   "sections": {
     "contents": [
       {
-        "name": "Home",
-        "url": "/",
-        "show_arrow": false
-      },
-      {
-        "name": "Blog",
-        "url": "/",
-        "show_arrow": false
-      },
-      {
         "name": "Docs",
-        "url": "/docs",
+        "url": "/",
         "show_arrow": false
       },
       {
@@ -35,12 +25,8 @@
   },
   "footer_sections": [
     {
-      "name": "Home",
-      "path": "/"
-    },
-    {
       "name": "Docs",
-      "path": "/docs"
+      "path": "/"
     },
     {
       "name": "Contribute",
