@@ -20,7 +20,9 @@ import { compressText } from "../scripts/utils";
             <span>
               <DocIcon width="16" height="16" />
             </span>
-            {compressText(con, 30)}
+            <a href={`${con}`}>
+                {compressText(con, 30)}
+            </a>
           </li>
         ))
       }
