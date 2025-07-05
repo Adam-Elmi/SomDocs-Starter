@@ -1,9 +1,10 @@
 import fs from "fs/promises";
+import path from "path";
 
-async function getContents(path) {
+async function getContents(dirPath) {
   try {
-    if (path) {
-      return await fs.readdir(path);
+    if (dirPath) {
+      return await fs.readdir(dirPath);
     } else {
       throw new Error("Please provide the path!");
     }
@@ -14,7 +15,8 @@ async function getContents(path) {
 }
 
 (async () => {
-  const contents = await getContents("./src/pages");
+  const baseDir = path.join(".", "src", "pages");
+  const contents = await getContents(baseDir);
   function filterContents(arg) {
     if (arg && Array.isArray(arg) && arg.length > 0) {
       return arg.filter((con) => con.slice(con.lastIndexOf(".") + 1) === "mdx");
@@ -24,13 +26,14 @@ async function getContents(path) {
       }
     }
   }
-  async function getTitle(path) {
-    if (path) {
-      const buffer = await fs.readFile("./src/pages/" + path);
+  async function getTitle(filePath) {
+    if (filePath) {
+      const fullPath = path.join(baseDir, filePath);
+      const buffer = await fs.readFile(fullPath);
       const readContent = buffer.toString();
       const titleIndex = readContent.indexOf("\ntitle:");
       if (titleIndex === -1) {
-        throw new Error(`No title found in file: ${path}`);
+        throw new Error(`No title found in file: ${filePath}`);
       }
       const title = readContent
         .slice(titleIndex + 7)
@@ -47,10 +50,12 @@ async function getContents(path) {
       if (contents && Array.isArray(contents) && contents.length > 0) {
         for (const content of contents) {
           try {
-            const con = await fs.readdir("./src/pages/" + content);
+            const contentDir = path.join(baseDir, content);
+            const con = await fs.readdir(contentDir);
             const titles = [];
             for (const file of filterContents(con)) {
-              const title = await getTitle(content + "/" + file);
+              const filePath = path.join(content, file);
+              const title = await getTitle(filePath);
               if (title) {
                 titles.push(title);
               }
@@ -76,8 +81,9 @@ async function getContents(path) {
   const output = await createJson();
 
   try {
+    const outputPath = path.join(".", "src", "data", "output.json");
     await fs.writeFile(
-      "./src/data/output.json",
+      outputPath,
       JSON.stringify(output, null, 2),
     );
     console.log("Successfully added!");
