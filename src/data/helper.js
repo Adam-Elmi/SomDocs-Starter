@@ -40,7 +40,7 @@ async function getContents(dirPath) {
         .trim();
       const newlineIndex = title.indexOf("\n");
       const full_title = (newlineIndex !== -1 ? title.slice(0, newlineIndex) : title)
-        .replaceAll('"', "");
+        .replaceAll('"', "").replaceAll("\r", "");
       return full_title;
     }
   }
