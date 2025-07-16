@@ -1,19 +1,35 @@
 [
   {
-    "content": "Adam Elmi"
+    "content": "Adam Elmi",
+    "path": "adam"
   },
   {
+    "path": "docs",
     "content": [
-      "Nice",
-      "welcome"
+      {
+        "path": "nice",
+        "title": "Nice",
+        "parent": "docs"
+      },
+      {
+        "path": "welcome",
+        "title": "welcome",
+        "parent": "docs"
+      }
     ]
   },
   {
-    "content": "Hello World"
+    "content": "Hello World",
+    "path": "hello"
   },
   {
+    "path": "learn",
     "content": [
-      "learn-ruby"
+      {
+        "path": "learn",
+        "title": "learn-ruby",
+        "parent": "learn"
+      }
     ]
   }
 ]
