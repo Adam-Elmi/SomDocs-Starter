@@ -57,15 +57,16 @@ async function getContents(dirPath) {
               const filePath = path.join(content, file);
               const title = await getTitle(filePath);
               if (title) {
-                titles.push(title);
+                titles.push({path: file.slice(0, file.indexOf(".")), title: title, parent: content});
               }
             }
             data.push({
+              path: content,
               content: titles,
             });
           } catch (err) {
             if (filterContents(content)) {
-              data.push({content: await getTitle(content) });
+              data.push({content: await getTitle(content), path: content.slice(0, content.indexOf(".")) });
             }
           }
         }
