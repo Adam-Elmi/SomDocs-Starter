@@ -2,7 +2,7 @@
 import DocIcon from "../icons/DocIcon.astro";
 import { compressText } from "../scripts/utils";
 import contentsData from "../data/output.json";
-const contents: string[] = [];
+const contents: object[] = [];
 for(const content of contentsData) {
   if(contentsData && contentsData.length > 0) {
     if(Array.isArray(content.content)) {
@@ -10,22 +10,23 @@ for(const content of contentsData) {
         contents.push(con);
       }
     } else {
-        contents.push(content.content);
+        contents.push({path: content.path, title: content.content});
     }
   }
+        console.log(contents)
 }
 ---
 <div class="p-2">
     <h1 class="font-semibold mb-2">Get started</h1>
     <ul class="ml-1 flex flex-col gap-4 px-1">
       {
-      contents.map((con) => (
+      contents.map((con: any) => (
           <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
             <span>
               <DocIcon width="16" height="16" />
             </span>
-            <a href={`${con}`}>
-                {compressText(con, 30)}
+            <a href={`${con.parent ? con.parent + '/'  +  con.path : con.path}`}>
+                {compressText(con.title, 30)}
             </a>
           </li>
         ))
