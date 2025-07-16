@@ -1,21 +1,25 @@
 ---
 import DocIcon from "../icons/DocIcon.astro";
 import { compressText } from "../scripts/utils";
+import contentsData from "../data/output.json";
+const contents: string[] = [];
+for(const content of contentsData) {
+  if(contentsData && contentsData.length > 0) {
+    if(Array.isArray(content.content)) {
+      for(const con of content.content) {
+        contents.push(con);
+      }
+    } else {
+        contents.push(content.content);
+    }
+  }
+}
 ---
 <div class="p-2">
     <h1 class="font-semibold mb-2">Get started</h1>
     <ul class="ml-1 flex flex-col gap-4 px-1">
       {
-        [
-          "Introduction",
-          "Create a project",
-          "Set up your environment Set up your environment",
-          "Start developing",
-          "Introduction",
-          "Create a project",
-          "Set up your environment Set up your environment",
-          "Start developing Adam",
-        ].map((con) => (
+      contents.map((con) => (
           <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
             <span>
               <DocIcon width="16" height="16" />
