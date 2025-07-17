@@ -72,7 +72,7 @@ console.log(finalOutput[0]);
                             </span>
                             <a
                             class="hover:text-white transition duration-150"
-                                href={`${con.parent ? con.parent + "/" + con.path : con.path}`}
+                            href={`${con.parent ? `/${con.parent}/${con.path}` : `/${con.path}`}`}
                             >
                                 {compressText(con.title, 30)}
                             </a>
