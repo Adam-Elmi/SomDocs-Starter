@@ -37,5 +37,6 @@
       "path": "/about"
     }
   ],
+  "show_contributors": false,
   "repo": ""
 }
