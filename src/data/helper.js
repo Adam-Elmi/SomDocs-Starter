@@ -44,6 +44,24 @@ async function getContents(dirPath) {
       return full_title;
     }
   }
+  async function getSection(filePath) {
+    if (filePath) {
+      const fullPath = path.join(baseDir, filePath);
+      const buffer = await fs.readFile(fullPath);
+      const readContent = buffer.toString();
+      const sectionIndex = readContent.indexOf("\nsection:");
+      if (sectionIndex === -1) {
+        throw new Error(`No section found in file: ${filePath}`);
+      }
+      const section = readContent
+        .slice(sectionIndex + 10)
+        .trim();
+      const newlineIndex = section.indexOf("\n");
+      const full_section = (newlineIndex !== -1 ? section.slice(0, newlineIndex) : section)
+        .replaceAll('"', "").replaceAll("\r", "");
+      return full_section.toLowerCase();
+    }
+  }
   async function createJson() {
     try {
       const data = [];
@@ -57,7 +75,7 @@ async function getContents(dirPath) {
               const filePath = path.join(content, file);
               const title = await getTitle(filePath);
               if (title) {
-                titles.push({path: file.slice(0, file.indexOf(".")), title: title, parent: content});
+                titles.push({path: file.slice(0, file.indexOf(".")), title: title, parent: content, section: await getSection(filePath)});
               }
             }
             data.push({
@@ -66,7 +84,7 @@ async function getContents(dirPath) {
             });
           } catch (err) {
             if (filterContents(content)) {
-              data.push({content: await getTitle(content), path: content.slice(0, content.indexOf(".")) });
+              data.push({content: await getTitle(content), path: content.slice(0, content.indexOf(".")), section: await getSection(content) });
             }
           }
         }
