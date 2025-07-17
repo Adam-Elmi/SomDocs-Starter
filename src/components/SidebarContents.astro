@@ -4,67 +4,82 @@ import { compressText } from "../scripts/utils";
 import docs_sections from "../scripts/docs_sections";
 import contentsData from "../data/output.json";
 const contents: any = [];
-for(const content of contentsData) {
-  if(contentsData && contentsData.length > 0) {
-    if(Array.isArray(content.content)) {
-      for(const con of content.content) {
-        contents.push(con);
-      }
-    } else {
-        contents.push({path: content.path, title: content.content, section: content.section});
+for (const content of contentsData) {
+    if (contentsData && contentsData.length > 0) {
+        if (Array.isArray(content.content)) {
+            for (const con of content.content) {
+                contents.push(con);
+            }
+        } else {
+            contents.push({
+                path: content.path,
+                title: content.content,
+                section: content.section,
+            });
+        }
     }
-  }
 }
 const adjustedContents: any = {};
 
-for(let i = 0;  i < docs_sections.length; i++) {
-  adjustedContents[i] = {
-    section: docs_sections[i],
-    content: []
-  };
+for (let i = 0; i < docs_sections.length; i++) {
+    adjustedContents[i] = {
+        section: docs_sections[i],
+        content: [],
+    };
 }
 let keys = [];
 
-for(const [key, value] of Object.entries(adjustedContents)) {
-  // @ts-ignore
-  keys.push(value.section);
+for (const [key, value] of Object.entries(adjustedContents)) {
+    // @ts-ignore
+    keys.push(value.section);
 }
 
-
-for(let i = 0; i < keys.length; i++) {
-  for(let j = 0; j < contents.length; j++) {
-    // @ts-ignore
-    if(keys[i] === contents[j].section) {
-      // console.log(adjustedContents[i.toString()]);
-      adjustedContents[i.toString()].content.push(contents[j]);
+for (let i = 0; i < keys.length; i++) {
+    for (let j = 0; j < contents.length; j++) {
+        // @ts-ignore
+        if (keys[i] === contents[j].section) {
+            // console.log(adjustedContents[i.toString()]);
+            adjustedContents[i.toString()].content.push(contents[j]);
+        }
     }
-  }
 }
 const finalOutput = [];
 
-for(const con in adjustedContents) {
-  finalOutput.push(adjustedContents[con])
+for (const con in adjustedContents) {
+    finalOutput.push(adjustedContents[con]);
 }
-  console.log(finalOutput[0]);
+console.log(finalOutput[0]);
 ---
+
 <div class="p-2">
     <ul class="ml-1 flex flex-col gap-4 px-1">
-      {
-      finalOutput.map(output => (
-      <>
-          <h1 class="font-semibold mb-2">{output.section.split(" ").map((value: string) => value[0].toUpperCase() + value.slice(1)).join(' ')}</h1>
-          {output.content.map((con: any) => (
-          <li class="text-slate-500/70 flex gap-2 items-center text-[0.9rem]">
-                     <span>
-                       <DocIcon width="16" height="16" />
-                     </span>
-                     <a href={`${con.parent ? con.parent + '/'  +  con.path : con.path}`}>
-                         {compressText(con.title, 30)}
-                     </a>
-                   </li>
-          ))}
-      </>
-      ))
-      }
+        {
+            finalOutput.map((output) => (
+                <>
+                    <h1 class="font-semibold mb-2">
+                        {output.section
+                            .split(" ")
+                            .map(
+                                (value: string) =>
+                                    value[0].toUpperCase() + value.slice(1),
+                            )
+                            .join(" ")}
+                    </h1>
+                    {output.content.map((con: any) => (
+                        <li class="text-slate-400/80 flex gap-2 items-center text-[0.9rem]">
+                            <span>
+                                <DocIcon width="16" height="16" />
+                            </span>
+                            <a
+                            class="hover:text-white transition duration-150"
+                                href={`${con.parent ? con.parent + "/" + con.path : con.path}`}
+                            >
+                                {compressText(con.title, 30)}
+                            </a>
+                        </li>
+                    ))}
+                </>
+            ))
+        }
     </ul>
-  </div>
+</div>
