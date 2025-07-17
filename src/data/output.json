@@ -1,7 +1,8 @@
 [
   {
     "content": "Adam Elmi",
-    "path": "adam"
+    "path": "adam",
+    "section": "get started"
   },
   {
     "path": "docs",
@@ -9,26 +10,30 @@
       {
         "path": "nice",
         "title": "Nice",
-        "parent": "docs"
+        "parent": "docs",
+        "section": "hello"
       },
       {
         "path": "welcome",
         "title": "welcome",
-        "parent": "docs"
+        "parent": "docs",
+        "section": "hello"
       }
     ]
   },
   {
     "content": "Hello World",
-    "path": "hello"
+    "path": "hello",
+    "section": "get started"
   },
   {
     "path": "learn",
     "content": [
       {
         "path": "learn",
-        "title": "learn-ruby",
-        "parent": "learn"
+        "title": "learn-ruby ",
+        "parent": "learn",
+        "section": "get started"
       }
     ]
   }
