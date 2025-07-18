@@ -1,5 +1,5 @@
 ---
-import { sections, logo } from "../../somdocs.data.json";
+import { logo, github } from "../../somdocs.data.json";
 import SearchBtn from "./SearchBtn.astro";
 import GithubIcon from "../icons/GithubIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
@@ -20,7 +20,7 @@ import SectionsComponent from "./SectionsComponent.astro";
       (
         <a id="logo-text" href="/" class="flex items-center gap-2">
           <img id="logo-icon" src={logo.icon} />
-          {logo.text}
+          {logo.name}
         </a>
       )
     }
@@ -38,11 +38,8 @@ import SectionsComponent from "./SectionsComponent.astro";
     <div class="flex gap-4 items-center">
       <button id="theme-toggle-btn" class="cursor-pointer">
         <MoonIcon width="20" height="20" />
-        <script>
-         
-        </script>
       </button>
-      <a href="">
+      <a href={github}>
         <GithubIcon width="20" height="20" />
       </a>
     </div>
