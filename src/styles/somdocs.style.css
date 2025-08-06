@@ -11,60 +11,121 @@
         - font-family: "Lato"
     5- Rubik
         - font-family: "Rubik"
-    6- Grand Hotel 
+    6- Grand Hotel
         - font-family: "Grand Hotel"
 ------------------------------------------
 
  */
 
 #section {
-  /* background-color: ; */
-  color: #777;
-  /* font-weight: ; */
-  /* font-style: ; */
-  /* font-size: ; */
-  /* border: ; */
-  border-radius: 5px;
+    /* background-color: ; */
+    color: #777;
+    /* font-weight: ; */
+    /* font-style: ; */
+    /* font-size: ; */
+    /* border: ; */
+    border-radius: 5px;
 }
 #section:not(.active-section):hover {
-  /* background-color: #0f172b; */
-  color: white;
-  /* border: ; */
+    /* background-color: #0f172b; */
+    color: #121;
+    /* border: ; */
 }
 
 #logo-text {
-  /* font-family: ; */
-  /* font-size: ; */
-  /* color: ; */
-  /* font-weight: normal; */
-  /* font-style: ; */
+    /* font-family: ; */
+    /* font-size: ; */
+    /* color: ; */
+    /* font-weight: normal; */
+    /* font-style: ; */
 }
 
 #logo-icon {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .active-section:not(.external-link) {
-  background: #ff416c; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #ff4b2b,
-    #ff416c
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #ff4b2b,
-    #ff416c
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #ff416c; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to right,
+        #ff4b2b,
+        #ff416c
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+        to right,
+        #ff4b2b,
+        #ff416c
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-  color: white !important;
-  /* font-weight: ; */
-  /* font-style: ; */
-  /* border: ; */
-  /* border-radius: ; */
+    color: white !important;
+    /* font-weight: ; */
+    /* font-style: ; */
+    /* border: ; */
+    /* border-radius: ; */
 }
 
 #content {
-    background-color: #111;
+    background-color: #fff;
+}
+
+#content > p {
+    color: #1d293d;
+}
+
+#content > h1,
+#content > h2,
+#content > h3,
+#content > h4,
+#content > h5,
+#content > h6 {
+    font-weight: bold;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    color: #45556c;
+    font-weight: bold;
+}
+
+#content > h1 {
+    font-size: 2rem;
+}
+
+#content > h2 {
+    font-size: 1.75rem;
+}
+
+#content > h3 {
+    font-size: 1.5rem;
+}
+#content > h4 {
+    font-size: 1.25rem;
+}
+#content > h5 {
+    font-size: 1rem;
+}
+#content > h6 {
+    font-size: 0.875rem;
+}
+
+[data-theme="dark"] #content {
+    background-color: #18191b;
+}
+
+[data-theme="dark"] #content > p {
+    color: #fff;
+}
+
+[data-theme="dark"] #section:not(.active-section):hover {
+    color: white;
+}
+
+[data-theme="dark"] #content > h1,
+[data-theme="dark"] #content > h2,
+[data-theme="dark"] #content > h3,
+[data-theme="dark"] #content > h4,
+[data-theme="dark"] #content > h5,
+[data-theme="dark"] #content > h6 {
+    color: #fff;
 }
