@@ -10,7 +10,7 @@ import SearchResultIcon from "../icons/SearchResultIcon.astro";
 <!-- Search Container -->
   <div
     id="search-container"
-    class="bg-[#101012] max-w-[800px] overflow-hidden w-full rounded-lg border-[1.5px] border-gray-500/20"
+    class="bg-white dark:bg-[#101012] max-w-[800px] overflow-hidden w-full rounded-lg border-[1.5px] border-gray-500/20"
   >
   <!-- Result Header -->
     <div class="flex gap-2 items-center border-b-[1.2px] border-gray-500/20 px-2">
@@ -22,7 +22,7 @@ import SearchResultIcon from "../icons/SearchResultIcon.astro";
         name="seach-input"
         id="search-input"
         placeholder="Search..."
-        class="w-full outline-none p-2 text-slate-200"
+        class="w-full outline-none p-2 text-slate-500 dark:text-slate-200"
       />
     </div>
     <!-- Search Result Container -->
@@ -43,7 +43,7 @@ import SearchResultIcon from "../icons/SearchResultIcon.astro";
       </div>
       <div
         id="search-result"
-        class="overflow-y-scroll max-h-[300px] text-center flex justify-center items-center text-slate-300 p-2 leading-8 border-b-[1.2px] border-gray-800/40 min-h-[100px]"
+        class="overflow-y-scroll max-h-[300px] text-center flex justify-center items-center text-slate-300 p-2 leading-8 border-b-[1.2px] border-gray-200 dark:border-gray-800/40 min-h-[100px]"
       >
       No result found
       </div>
