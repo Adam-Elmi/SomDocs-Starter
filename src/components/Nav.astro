@@ -1,5 +1,5 @@
 ---
-import { logo, github } from "../../somdocs.data.json";
+import { logo, github, name } from "../../somdocs.data.json";
 import SearchBtn from "./SearchBtn.astro";
 import GithubIcon from "../icons/GithubIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
@@ -9,7 +9,7 @@ import SectionsComponent from "./SectionsComponent.astro";
 ---
 
 <nav
-  class="w-full bg-[#101012] p-2 border-b border-gray-700/50 text-white flex justify-between items-center"
+  class="w-full bg-white dark:bg-[#101012] p-2 border-b border-gray-200 dark:border-gray-700/50 text-white flex justify-between items-center"
 >
   <!-- Left Side -->
   <div
@@ -18,9 +18,9 @@ import SectionsComponent from "./SectionsComponent.astro";
     <!-- Logo and Sections -->
     {
       (
-        <a id="logo-text" href="/" class="flex items-center gap-2">
+        <a id="logo-text" href="/" class="flex items-center gap-2 dark:text-white text-slate-800">
           <img id="logo-icon" src={logo.icon} />
-          {logo.name}
+          {name}
         </a>
       )
     }
@@ -37,9 +37,9 @@ import SectionsComponent from "./SectionsComponent.astro";
     <!-- Theme & github icon -->
     <div class="flex gap-4 items-center">
       <button id="theme-toggle-btn" class="cursor-pointer">
-        <MoonIcon width="20" height="20" />
+        <!-- <MoonIcon width="20" height="20" /> -->
       </button>
-      <a href={github}>
+      <a href={github} class="dark:text-white text-black">
         <GithubIcon width="20" height="20" />
       </a>
     </div>
