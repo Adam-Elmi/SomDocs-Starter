@@ -1,0 +1,24 @@
+---
+import CopyIcon from "../icons/CopyIcon.astro";
+const {filename = "", width=  "1000px", height="auto"} = Astro.props;
+---
+
+<div class="w-full flex items-center justify-center my-2">
+    <div class={`w-[${width}] h-[${height}] max-w-full bg-[#101012] border-2 border-slate-800/80`}>
+        <!-- Header -->
+        <div class="p-2 flex justify-between items-center border-b-2 border-slate-800/50">
+            <span class="text-slate-500 text-sm font-mono">{filename}</span>
+            <button id="copy-btn" class="cursor-pointer">
+                <span id="copy-icon-holder" class="hover:text-slate-500 text-slate-300">
+                    <CopyIcon/>
+                </span>
+            </button>
+        </div>
+        <!-- Body -->
+        <div id="code-node" class="p-2 bg-[#101012] overflow-auto">
+            <slot/>
+        </div>
+    </div>
+</div>
+
+<script src="../scripts/copyText.ts"></script>
