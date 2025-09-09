@@ -39,6 +39,10 @@
     }
   ],
   "show_contributors": false,
+  "redirect": {
+    "enabled": true,
+    "redirect_to": "/hello"
+  },
   "github": "",
   "discord": ""
 }
