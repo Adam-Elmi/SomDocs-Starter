@@ -33,11 +33,7 @@
 }
 
 #logo-text {
-    /* font-family: ; */
-    /* font-size: ; */
-    /* color: ; */
-    /* font-weight: normal; */
-    /* font-style: ; */
+    font-weight: bold;
 }
 
 #logo-icon {
@@ -107,6 +103,29 @@
 }
 #content > h6 {
     font-size: 0.875rem;
+}
+
+#content > p > a {
+    color: #2b9fff;
+    font-weight: 600;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+#content > p > code:not(.astro-code > code) {
+    color: #333 !important;
+    background-color: #e9eaff !important;
+    padding: 2px !important;
+    font-family: monospace;
+    border-radius: 2px !important;
+    border: 1px solid #bbb !important;
+}
+
+
+[data-theme="dark"] #content > p > code:not(.astro-code > code) {
+    color: #999 !important;
+    background-color: #262743  !important;
+     border: 1px solid #333 !important;
 }
 
 [data-theme="dark"] #content {
