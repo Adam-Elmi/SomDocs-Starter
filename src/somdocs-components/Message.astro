@@ -1,0 +1,56 @@
+---
+import WarnIcon from "../icons/WarnIcon.astro";
+import BulbIcon from "../icons/BulbIcon.astro";
+import InfoIcon from "../icons/InfoIcon.astro";
+import ErrorIcon from "../icons/ErrorIcon.astro";
+
+const { type } = Astro.props as { type: "note" | "tip" | "warning" | "error" };
+
+const styles: Record<string, string> = {
+    note: "bg-blue-500/20 text-blue-700 dark:text-blue-100",
+    tip: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-100",
+    warning: "bg-yellow-500/20 text-yellow-700 dark:text-yellow-100",
+    error: "bg-red-500/20 text-red-700 dark:text-red-100",
+};
+const borderStyle: Record<string, string> = {
+    note: "border-2 border-blue-300",
+    tip: "border-2 border-emerald-300",
+    warning: "border-2 border-yellow-300/70",
+    error: "border-2 border-red-300",
+};
+---
+
+<div
+    id="msg-container"
+    class={`my-2 rounded-md shadow-md flex flex-col gap-1 max-[500px]:text-sm overflow-hidden ${borderStyle[type]}`}
+>
+    <div class={`w-full ${styles[type]} p-2`}>
+        <div class="mr-2">
+            {
+                type === "note" ? (
+                    <span class="flex items-center gap-2 font-bold">
+                        <InfoIcon /> Note
+                    </span>
+                ) : type === "warning" ? (
+                    <span class="flex items-center gap-2 font-bold">
+                        <WarnIcon /> Warning
+                    </span>
+                ) :
+                type === "tip" ? 
+                (
+                <span class="flex items-center gap-2 font-bold">
+                    <BulbIcon/> Tip
+                </span>
+                )
+                :(
+                    <span class="flex items-center gap-2 font-bold">
+                        <ErrorIcon /> Error
+                    </span>
+                )
+            }
+        </div>
+    </div>
+    <div class="flex flex-col gap-2 leading-6 p-4 text-slate-700 dark:text-slate-100 bg-white dark:bg-[#18191b]">
+        <slot />
+    </div>
+</div>
