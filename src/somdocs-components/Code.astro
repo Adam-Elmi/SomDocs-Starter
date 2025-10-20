@@ -1,10 +1,10 @@
 ---
 import CopyIcon from "../icons/CopyIcon.astro";
-const {filename = "", width=  "1000px", height="auto"} = Astro.props;
+const {filename = ""} = Astro.props;
 ---
 
 <div class="w-full flex items-center justify-center my-2">
-    <div class={`w-[${width}] h-[${height}] max-w-full bg-[#101012] border-2 border-slate-800/80`}>
+    <div class="w-full h-auto max-w-full bg-[#101012] border-2 border-slate-800/80">
         <!-- Header -->
         <div class="p-2 flex justify-between items-center border-b-2 border-slate-800/50">
             <span class="text-slate-500 text-sm font-mono">{filename}</span>
