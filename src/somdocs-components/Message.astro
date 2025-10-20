@@ -9,13 +9,13 @@ const { type } = Astro.props as { type: "note" | "tip" | "warning" | "error" };
 const styles: Record<string, string> = {
     note: "bg-blue-500/20 text-blue-700 dark:text-blue-100",
     tip: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-100",
-    warning: "bg-yellow-500/20 text-yellow-700 dark:text-yellow-100",
+    warning: "bg-amber-500/20 text-amber-700 dark:text-amber-100",
     error: "bg-red-500/20 text-red-700 dark:text-red-100",
 };
 const borderStyle: Record<string, string> = {
     note: "border-2 border-blue-300 dark:border-blue-400",
     tip: "border-2 border-emerald-300 dark:border-emerald-400",
-    warning: "border-2 border-yellow-300/70 dark:border-yellow-300",
+    warning: "border-2 border-amber-300/70 dark:border-amber-300",
     error: "border-2 border-red-300 dark:border-red-400",
 };
 ---
@@ -50,7 +50,7 @@ const borderStyle: Record<string, string> = {
             }
         </div>
     </div>
-    <div class="flex flex-col gap-2 leading-6 p-4 text-slate-700 dark:text-slate-100 bg-white dark:bg-[#18191b]">
+    <div class="flex flex-col gap-2 leading-6 p-4 text-slate-700 dark:text-slate-100 bg-white dark:bg-[#11111b]">
         <slot />
     </div>
 </div>
