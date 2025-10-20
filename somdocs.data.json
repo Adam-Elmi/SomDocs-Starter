@@ -40,7 +40,7 @@
   ],
   "show_contributors": false,
   "redirect": {
-    "enabled": true,
+    "enabled": false,
     "redirect_to": "/hello"
   },
   "github": "",
