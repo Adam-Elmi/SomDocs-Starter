@@ -67,6 +67,7 @@
 
 #content > p {
     color: #1d293d;
+    line-height: 1.8;
 }
 
 #content > h1,
@@ -121,15 +122,14 @@
     border: 1px solid #bbb !important;
 }
 
+[data-theme="dark"] #content {
+    background-color: #11111b;
+}
 
 [data-theme="dark"] #content > p > code:not(.astro-code > code) {
     color: #999 !important;
     background-color: #262743  !important;
      border: 1px solid #333 !important;
-}
-
-[data-theme="dark"] #content {
-    background-color: #18191b;
 }
 
 [data-theme="dark"] #content > p {
