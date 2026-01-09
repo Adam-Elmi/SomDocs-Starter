@@ -33,5 +33,47 @@
     "proflieUrl": "https://github.com/Adam-Elmi",
     "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/1b18476fd94f5797dc2d74fab50af3308a234055",
     "hash": "1b18476fd94f5797dc2d74fab50af3308a234055"
+  },
+  "pages/docs/components.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
+  },
+  "pages/docs/configuration.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
+  },
+  "pages/docs/features.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
+  },
+  "pages/docs/installation.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
+  },
+  "pages/docs/introduction.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
+  },
+  "pages/docs/writing-content.mdx": {
+    "lastUpdated": "2026-01-09T18:59:26Z",
+    "updatedBy": "Adam-Elmi",
+    "proflieUrl": "https://github.com/Adam-Elmi",
+    "commitUrl": "https://github.com/Adam-Elmi/SomDocs-Starter/commit/df04e8a08a13a851ebc8abe792267909ac3cb653",
+    "hash": "df04e8a08a13a851ebc8abe792267909ac3cb653"
   }
 }
