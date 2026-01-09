@@ -1,21 +1,41 @@
 ---
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
 import ArrowIcon from "../icons/ArrowIcon.astro";
+
 const { id, url = "", show_arrow = false } = Astro.props;
+
+const normalizePath = (p: string) => p.replace(/\/$/, "") || "/";
+const currentPath = normalizePath(Astro.url.pathname);
+const linkPath = normalizePath(url.toString());
+const isActive =
+  linkPath === "/"
+    ? currentPath === linkPath
+    : currentPath.startsWith(linkPath);
+
+const theme = getTheme(colorScheme);
 ---
 
 <li
   id={id}
-  class={`py-1 px-3 transition-colors duration-75 cursor-pointer flex gap-2 items-center ${show_arrow ? "external-link" : ""}`}
+  class={`transition-all duration-200 cursor-pointer flex gap-1 items-center font-medium text-sm ${show_arrow ? "external-link" : ""}`}
 >
-  <a href={url}>
+  <a
+    href={url}
+    class={`px-3 py-1.5 rounded-full transition-all duration-300 ease-out flex items-center gap-1
+    ${
+      isActive
+        ? `${theme.activeBg} ${theme.activeText} ${theme.shadow} shadow-lg transform scale-100 font-semibold tracking-wide`
+        : `${theme.hoverBg} ${theme.hoverText} text-slate-600 dark:text-slate-400 active:scale-95 transition-all`
+    }`}
+  >
     <slot />
+    {
+      show_arrow ? (
+        <span class={isActive ? "text-white" : ""}>
+          <ArrowIcon width="14" height="14" style="transform:rotate(45deg)" />
+        </span>
+      ) : null
+    }
   </a>
-  {
-    show_arrow ? (
-      <span>
-        <ArrowIcon width="16" height="16" style="transform:rotate(45deg)" />
-      </span>
-    ) : null
-  }
 </li>
-<script src="/src/scripts/currentSection.ts"></script>
