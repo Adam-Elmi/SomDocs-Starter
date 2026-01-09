@@ -1,0 +1,58 @@
+---
+layout: "../../layout/DocLayout.astro"
+title: Writing Content
+description: How to add new pages and organize your documentation.
+---
+
+import Code from "../../somdocs-components/Code.astro";
+import Message from "../../somdocs-components/Message.astro";
+
+# Writing Content
+
+SomDocs uses **MDX** (Markdown with JSX), allowing you to write standard markdown while embedding interactive components.
+
+## Adding a New Page
+
+1.  Navigate to `src/pages/docs/`.
+2.  Create a new file with the `.mdx` extension, e.g., `my-new-page.mdx`.
+3.  Add the required **Frontmatter** at the top of the file:
+
+<Code filename="my-new-page.mdx">
+```yaml
+---
+layout: "../../layout/DocLayout.astro"
+title: My New Page
+description: A short summary of what this page is about.
+---
+
+# My New Page
+
+Start writing your content here...
+```
+</Code>
+
+<Message type="warning">
+    Always ensure `layout` is set correctly. Without it, your page will lack the sidebar and header.
+</Message>
+
+## Organizing with Folders
+
+You can group related pages into folders.
+
+1.  Create a folder in `src/pages/docs/`, e.g., `advanced/`.
+2.  Add `.mdx` files inside it.
+3.  The text format of the folder name in the sidebar will be automatically generated (e.g., `advanced-topic` becomes `Advanced Topic`).
+
+## Sidebar Order
+
+By default, files are sorted alphabetically or by the order found. To explicitly set the order of top-level items, edit `somdocs.config.json`:
+
+<Code filename="somdocs.config.json">
+```json
+{
+  "onTop": ["introduction", "installation", "my-new-page"]
+}
+```
+</Code>
+
+Items in `onTop` will appear first in the sidebar, in the order specified.

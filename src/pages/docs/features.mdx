@@ -1,0 +1,60 @@
+---
+layout: "../../layout/DocLayout.astro"
+title: Features
+description: Overview of the powerful features available in SomDocs-Starter.
+---
+
+import Code from "../../somdocs-components/Code.astro";
+import Message from "../../somdocs-components/Message.astro";
+
+# Features
+
+SomDocs comes packed with features to help you write better documentation.
+
+## MDX Support
+
+You can use standard Markdown syntax alongside interactive components.
+
+### Code Blocks
+
+We support syntax highlighting out of the box with our custom `Code` component.
+
+<Code filename="example.js">
+```js
+function hello() {
+  console.log("Hello, World!");
+}
+```
+</Code>
+
+### Callouts / Messages
+
+Use the `Message` component to highlight important information.
+
+<Message type="note">
+This is a **note** callout. Useful for general information.
+</Message>
+
+<Message type="tip">
+This is a **tip**! Use this for helpful advice.
+</Message>
+
+<Message type="warning">
+**Warning!** Watch out for this.
+</Message>
+
+<Message type="error">
+**Error!** Critical information that shouldn't be missed.
+</Message>
+
+## Auto-generated Sidebar
+
+The sidebar is automatically generated based on your file structure in `src/pages/`. You don't need to manually maintain a list of links.
+
+## Full Text Search
+
+Integrated full-text search powered by Pagefind allows users to instantly find the content they are looking for.
+
+## Dark Mode
+
+A beautiful dark mode is included by default, respecting the user's system preference but also toggleable manually.

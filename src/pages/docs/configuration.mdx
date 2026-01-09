@@ -1,0 +1,61 @@
+---
+layout: "../../layout/DocLayout.astro"
+title: Configuration
+description: Learn how to customize SomDocs-Starter using somdocs.config.json.
+---
+
+import Code from "../../somdocs-components/Code.astro";
+import Table from "../../somdocs-components/Table.astro";
+import TextHighlight from "../../somdocs-components/TextHighlight.astro";
+
+# Configuration
+
+SomDocs-Starter is designed to be highly configurable via a single `somdocs.config.json` file located in the root of your project.
+
+## Basic Configuration
+
+Here is an example structure of `somdocs.config.json`:
+
+<Code filename="somdocs.config.json">
+```json
+{
+  "repo_url": "https://github.com/Adam-Elmi/SomDocs-Starter",
+  "colorScheme": "orange",
+  "onTop": ["introduction", "installation"],
+  "sidebar": {
+    "collapsed": true
+  }
+}
+```
+</Code>
+
+## Options
+
+### <TextHighlight color="green">repo_url</TextHighlight>
+*Type*: `string`
+The URL of your GitHub repository. This is used to fetch metadata like contributors and last updated dates.
+
+### <TextHighlight color="green">colorScheme</TextHighlight>
+*Type*: `string`
+Sets the primary theme color for the site.
+*Available options*: `"rose"`, `"blue"`, `"orange"`, `"green"`, `"violet"`, `"indigo"`, `"teal"`.
+
+### <TextHighlight color="green">onTop</TextHighlight>
+*Type*: `string[]`
+An array of page names (filenames without extension) that should appear at the top of the sidebar navigation, in the specified order.
+
+<Code filename="somdocs.config.json">
+```json
+"onTop": ["introduction", "installation", "configuration"]
+```
+</Code>
+
+### <TextHighlight color="green">sidebar</TextHighlight>
+Configuration object for sidebar behavior.
+
+<Table
+    headers={["Option", "Type", "Description"]}
+    body={[
+        { row: ["collapsed", "boolean", "Whether folder groups in the sidebar should be collapsed by default."] }
+    ]}
+/>

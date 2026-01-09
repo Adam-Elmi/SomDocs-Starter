@@ -1,0 +1,206 @@
+---
+layout: "../../layout/DocLayout.astro"
+title: Components
+description: Reference guide for all custom components available in SomDocs.
+---
+
+import Code from "../../somdocs-components/Code.astro";
+import CodeTabs from "../../somdocs-components/CodeTabs.astro";
+import CodeTab from "../../somdocs-components/CodeTab.astro";
+import Steps from "../../somdocs-components/Steps.astro";
+import Step from "../../somdocs-components/Step.astro";
+import Message from "../../somdocs-components/Message.astro";
+import TextHighlight from "../../somdocs-components/TextHighlight.astro";
+import Table from "../../somdocs-components/Table.astro";
+import References from "../../somdocs-components/References.astro";
+import Image from "../../somdocs-components/Image.astro";
+import Colorize from "../../somdocs-components/Colorize.astro";
+import NpmIcon from "../../icons/NpmIcon.astro";
+import YarnIcon from "../../icons/YarnIcon.astro";
+
+
+# Components
+
+SomDocs comes with a rich set of components to help you create beautiful documentation.
+
+## CodeTabs
+
+Use `CodeTabs` to group related code snippets, such as installation commands for different package managers.
+
+<CodeTabs>
+    <CodeTab title="npm" filename="Terminal">
+        <NpmIcon slot="icon" class="w-4 h-4" />
+        ```sh
+        npm install somdocs
+        ```
+    </CodeTab>
+    <CodeTab title="yarn" filename="Terminal">
+        <YarnIcon slot="icon" class="w-10 h-10" />
+        ```sh
+        yarn add somdocs
+        ```
+    </CodeTab>
+</CodeTabs>
+
+**Usage:**
+
+<Code lang="astro" filename="example.mdx">
+```jsx
+<CodeTabs>
+    <CodeTab title="npm" filename="Terminal">
+        <NpmIcon slot="icon" class="w-4 h-4" />
+        \`\`\`sh
+        npm install somdocs
+        \`\`\`
+    </CodeTab>
+     <CodeTab title="yarn" filename="Terminal">
+        <YarnIcon slot="icon" class="w-4 h-4" />
+        \`\`\`sh
+        yarn add somdocs
+        \`\`\`
+    </CodeTab>
+</CodeTabs>
+```
+</Code>
+
+## Steps
+
+Use `Steps` to document a process or workflow.
+
+<Steps>
+    <Step title="Initialize">
+        Run the initialization command.
+    </Step>
+    <Step title="Configure">
+        Edit the configuration file.
+    </Step>
+</Steps>
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<Steps>
+    <Step title="Initialize">
+        Run the initialization command.
+    </Step>
+    <Step title="Configure">
+        Edit the configuration file.
+    </Step>
+</Steps>
+```
+</Code>
+
+## Message
+
+Use `Message` to highlight important information. Supported types: `note`, `tip`, `warning`, `error`, `success`, `info`.
+
+<Message type="note">This is a note.</Message>
+<Message type="tip">This is a tip.</Message>
+<Message type="warning">This is a warning.</Message>
+<Message type="error">This is an error.</Message>
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<Message type="tip">
+  This is a tip!
+</Message>
+```
+</Code>
+
+## TextHighlight
+
+Use `TextHighlight` to emphasize specific terms with a background color.
+
+This is <TextHighlight color="green">green</TextHighlight>, <TextHighlight color="blue">blue</TextHighlight>, and <TextHighlight color="orange">orange</TextHighlight>.
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<TextHighlight color="green">highlighted text</TextHighlight>
+```
+</Code>
+
+## Table
+
+A styled table component.
+
+<Table
+    headers={["Feature", "Status", "Notes"]}
+    body={[
+        { row: ["Dark Mode", "Supported", "Automatic"] },
+        { row: ["Search", "Supported", "Pagefind"] },
+        { row: ["MDX", "Supported", "Built-in"] }
+    ]}
+/>
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<Table
+    headers={["Feature", "Status", "Notes"]}
+    body={[
+        { row: ["Dark Mode", "Supported", "Automatic"] },
+        { row: ["Search", "Supported", "Pagefind"] },
+        { row: ["MDX", "Supported", "Built-in"] }
+    ]}
+/>
+```
+</Code>
+
+## References
+
+Display a list of related links in a styled card.
+
+<References
+    references={[
+        { text: "Astro Documentation", link: "https://docs.astro.build" },
+        { text: "Tailwind CSS", link: "https://tailwindcss.com" }
+    ]}
+/>
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<References
+    references={[
+        { text: "Astro Documentation", link: "https://docs.astro.build" }
+    ]}
+/>
+```
+</Code>
+
+## Image
+
+An optimized image component with caption and download button.
+
+<Code filename="example.mdx">
+```jsx
+<Image 
+    src="/path/to/image.png" 
+    alt="Description" 
+    caption="A beautiful screenshot" 
+    width={800} 
+    height={400} 
+>
+```
+</Code>
+
+## Colorize
+
+Style text with bold, italic, or specific documentation colors.
+
+<Colorize color="docs-blue" is_bold={true}>Blue Bold Text</Colorize>
+
+**Usage:**
+
+<Code filename="example.mdx">
+```jsx
+<Colorize color="docs-blue" is_bold={true}>Blue Bold Text</Colorize>
+```
+</Code>

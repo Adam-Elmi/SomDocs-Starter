@@ -1,0 +1,82 @@
+---
+layout: "../../layout/DocLayout.astro"
+title: Installation
+description: Step-by-step guide to installing and setting up SomDocs-Starter.
+---
+
+import Code from "../../somdocs-components/Code.astro";
+import Steps from "../../somdocs-components/Steps.astro";
+import Step from "../../somdocs-components/Step.astro";
+import Message from "../../somdocs-components/Message.astro";
+import CodeTabs from "../../somdocs-components/CodeTabs.astro";
+import CodeTab from "../../somdocs-components/CodeTab.astro";
+import NpmIcon from "../../icons/NpmIcon.astro";
+import YarnIcon from "../../icons/YarnIcon.astro";
+
+<Steps
+    title="Installation Steps"
+    description="Follow these steps to manually clone and set up the project."
+>
+    <Step title="Clone the repository">
+        Use git to clone the project to your local machine:
+        <Code filename="Terminal">
+        ```sh
+        git clone https://github.com/Adam-Elmi/SomDocs-Starter.git my-docs
+        ```
+        </Code>
+    </Step>
+    
+    <Step title="Navigate to directory">
+        <Code filename="Terminal">
+        ```sh
+        cd my-docs
+        ```
+        </Code>
+    </Step>
+
+    <Step title="Install dependencies">
+        Run npm install to download all necessary packages.
+        <CodeTabs>
+            <CodeTab title="npm" filename="Terminal">
+                <NpmIcon slot="icon" />
+            ```sh
+            npm install
+            ```
+            </CodeTab>
+            <CodeTab title="yarn" filename="Terminal">
+                <YarnIcon slot="icon" />
+            ```sh
+            yarn install
+            ```
+            </CodeTab>
+        </CodeTabs>
+    </Step>
+
+    <Step title="Start development server">
+        Run npm run dev to start the local server.
+        <CodeTabs>
+            <CodeTab title="npm" filename="Terminal">
+                <NpmIcon slot="icon" />
+            ```sh
+            npm run dev
+            ```
+            </CodeTab>
+            <CodeTab title="yarn" filename="Terminal">
+                <YarnIcon slot="icon" />
+            ```sh
+            yarn dev
+            ```
+            </CodeTab>
+        </CodeTabs>
+    </Step>
+</Steps>
+
+
+
+<Message type="success">
+    Your site should now be running at http://localhost:9000
+</Message>
+
+## Next Steps
+
+Once you have the project running, you can start customizing it by checking out the [Configuration](/docs/configuration) guide.
