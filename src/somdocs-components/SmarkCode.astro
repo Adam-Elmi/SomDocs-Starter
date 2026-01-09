@@ -1,0 +1,276 @@
+---
+import Copy2Icon from "../icons/Copy2Icon.astro";
+const { code = "", filename = "Smark" } = Astro.props;
+
+const escapeHtml = (str: string) => {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+};
+
+// Syntax Highlighter Logic
+const highlightSomMark = (input: string) => {
+    const lines = input.split("\n");
+    let inAtBlock = false;
+
+    return lines.map((line) => {
+        let html = escapeHtml(line);
+        const trimmed = html.trim();
+
+        if (inAtBlock) {
+            if (trimmed === "@_end_@") {
+                inAtBlock = false;
+                return `<span class="smark-at-tag">${html}</span>`;
+            } else {
+                return `<span class="smark-raw">${html}</span>`;
+            }
+        }
+
+        if (trimmed.startsWith("@_") && trimmed.includes("_@")) {
+            const match = html.match(/^(\s*)(@_[a-zA-Z0-9]+_@)(:.*)?(\s*)$/);
+            if (match) {
+                inAtBlock = true;
+                const [_, prefix, tag, args, suffix] = match;
+                let result = prefix;
+                result += `<span class="smark-at-tag">${tag}</span>`;
+                if (args) {
+                    result += `<span class="smark-args">${args}</span>`;
+                }
+                result += suffix;
+                return result;
+            }
+        }
+
+        html = html.replace(
+            /(\[)([a-zA-Z0-9]+)(?:(\s*=\s*)([^\]]+))?(\])/g,
+            (m, open, id, eq, args, close) => {
+                let res = `<span class="smark-keyword">${open}</span>`;
+                res += `<span class="smark-block-id">${id}</span>`;
+                if (eq) {
+                    res += `<span class="smark-operator">${eq}</span>`;
+                    res += `<span class="smark-args">${args}</span>`;
+                }
+                res += `<span class="smark-keyword">${close}</span>`;
+                return res;
+            },
+        );
+
+        html = html.replace(
+            /\[end\]/g,
+            `<span class="smark-keyword">[end]</span>`,
+        );
+        html = html.replace(
+            /\((.+?)\)-&gt;\(([^)]+)\)/g,
+            (match, text, actionInfo) => {
+                let actionHtml = "";
+                const colonIndex = actionInfo.indexOf(":");
+                if (colonIndex !== -1) {
+                    const id = actionInfo.substring(0, colonIndex);
+                    const args = actionInfo.substring(colonIndex); // includes colon
+                    actionHtml = `<span class="smark-inline-id">${id}</span><span class="smark-operator">:</span><span class="smark-args">${args.substring(1)}</span>`;
+                } else {
+                    actionHtml = `<span class="smark-inline-id">${actionInfo}</span>`;
+                }
+
+                return (
+                    `<span class="smark-inline-wrapper">` +
+                    `<span class="smark-punct">(</span><span class="smark-inline-text">${text}</span><span class="smark-punct">)</span>` +
+                    `<span class="smark-arrow">-&gt;</span>` +
+                    `<span class="smark-punct">(</span>${actionHtml}<span class="smark-punct">)</span>` +
+                    `</span>`
+                );
+            },
+        );
+
+        return html;
+    });
+};
+
+const processedLines = highlightSomMark(code);
+---
+
+<div
+    class="code-block-container w-full max-w-[1000px] my-6 rounded-md overflow-hidden bg-[#0d1117] border border-[#30363d] shadow-lg"
+>
+    <div
+        class="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d]"
+    >
+        <div class="flex items-center gap-2">
+            <div class="text-[#8b949e]">
+                <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-terminal"
+                >
+                    <polyline points="4 17 10 11 4 5"></polyline>
+                    <line x1="12" x2="20" y1="19" y2="19"></line>
+                </svg>
+            </div>
+            {
+                filename && (
+                    <span class="text-xs font-mono text-[#7ee787] bg-[rgba(56,139,253,0.1)] px-2 py-0.5 rounded border border-[rgba(56,139,253,0.4)] tracking-wide">
+                        {filename}
+                    </span>
+                )
+            }
+        </div>
+        <button
+            class="copy-btn group relative p-1.5 hover:bg-[#30363d] rounded transition-colors cursor-pointer"
+            aria-label="Copy code"
+            data-code={code}
+        >
+            <span
+                class="text-[#8b949e] group-hover:text-white transition-colors"
+            >
+                <Copy2Icon dimension={16} />
+            </span>
+            <span
+                class="absolute top-1/2 right-full mr-2 -translate-y-1/2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-[#30363d]"
+            >
+                Copy
+            </span>
+        </button>
+    </div>
+
+    <div class="p-0 overflow-x-auto custom-scrollbar">
+        <pre
+            class="astro-code"><code>{
+            processedLines.map(lineHtml => (
+                <div class="line"><Fragment set:html={lineHtml || ' '} /></div>
+            ))
+        }</code></pre>
+    </div>
+</div>
+
+<style is:global>
+    pre,
+    pre.astro-code,
+    pre.shiki {
+        counter-reset: step;
+        background-color: transparent !important;
+        margin: 0 !important;
+        padding: 1rem 0 !important;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+    pre > code {
+        display: grid;
+    }
+    .line {
+        display: block;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        border-left: 2px solid transparent;
+        min-height: 1rem;
+    }
+    .line::before {
+        counter-increment: step;
+        content: counter(step);
+        display: inline-block;
+        width: 1.5rem;
+        margin-right: 1.5rem;
+        text-align: right;
+        color: #484f58;
+        font-size: 0.75rem;
+        font-family: inherit;
+        user-select: none;
+        -webkit-user-select: none;
+        border-right: 1px solid #30363d;
+        padding-right: 0.5rem;
+        line-height: inherit;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+        height: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: #0d1117;
+        border-top: 1px solid #30363d;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #30363d;
+        border-radius: 5px;
+        border: 2px solid #0d1117;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: #484f58;
+    }
+
+    @media (max-width: 640px) {
+        pre,
+        pre.astro-code,
+        pre.shiki {
+            font-size: 0.75rem !important;
+            padding: 0.5rem 0 !important;
+            line-height: 1.5;
+        }
+        .line {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+        .line::before {
+            width: 1.15rem;
+            margin-right: 0.75rem;
+            font-size: 0.625rem;
+            padding-right: 0.4rem;
+        }
+    }
+
+    .smark-at-tag {
+        color: #d2a8ff;
+        font-weight: bold;
+    }
+    .smark-raw {
+        color: #8b949e;
+    }
+    .smark-keyword {
+        color: #ff7b72;
+        font-weight: bold;
+    }
+    .smark-block-id {
+        color: #79c0ff;
+        font-weight: bold;
+    }
+    .smark-operator {
+        color: #d2a8ff;
+    }
+    .smark-args {
+        color: #a5d6ff;
+    }
+    .smark-inline-text {
+        color: #c9d1d9;
+        border-bottom: 1px dashed #30363d;
+    }
+    .smark-inline-id {
+        color: #f2cc60;
+    }
+    .smark-arrow {
+        color: #ff7b72;
+    }
+    .smark-punct {
+        color: #79c0ff;
+    }
+    .smark-inline-wrapper {
+    }
+</style>
+
+<script>
+    const copyButtons = document.querySelectorAll(".copy-btn");
+    copyButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const code = btn.getAttribute("data-code");
+            if (code) {
+                navigator.clipboard.writeText(code);
+            }
+        });
+    });
+</script>
