@@ -1,0 +1,254 @@
+---
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme.js";
+import MainLayout from "./MainLayout.astro";
+import Nav from "../components/Nav.astro";
+import Sidebar from "../components/Sidebar.astro";
+import MainFooter from "./MainFooter.astro";
+import GithubIcon from "../icons/GithubIcon.astro";
+import TableContent from "../components/TableContent.astro";
+import metadata from "../data/metadata.json";
+import { formatDate } from "../scripts/formateDate";
+
+const { frontmatter, headings } = Astro.props;
+const title = frontmatter?.title || "Documentation";
+const description = frontmatter?.description || "";
+
+const theme = getTheme(colorScheme);
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/index";
+const metadataMap = metadata as any;
+const metadataKey = Object.keys(metadataMap).find((key) => {
+    const keyPath =
+        "/" +
+        key
+            .replace(/^pages\//, "")
+            .replace(/\.mdx?$/, "")
+            .replace(/\/index$/, "");
+    return keyPath === currentPath || keyPath === currentPath + "/index";
+});
+
+const pageData = metadataKey ? metadataMap[metadataKey] : null;
+
+const lastUpdated = pageData ? formatDate(pageData.lastUpdated) : "Unknown";
+const updatedBy = pageData ? pageData.updatedBy : "Unknown";
+const commitUrl = pageData ? pageData.commitUrl : "#";
+const editUrl = `https://github.com/Adam-Elmi/SomDocs-Starter/blob/main/src/${metadataKey || "pages/index.mdx"}`;
+---
+
+<MainLayout title={title}>
+    <div
+        class="flex flex-col h-screen max-[900px]:h-auto bg-white dark:bg-[#101012]"
+    >
+        <Nav />
+        <div class="flex flex-1 overflow-hidden">
+            <Sidebar />
+            <main
+                class="flex-1 flex flex-col w-full overflow-y-auto scroll-smooth custom-scrollbar bg-white dark:bg-[#101012]"
+            >
+                <div
+                    id="content"
+                    class="flex-1 w-full max-w-[1280px] mx-auto p-4 md:p-8 lg:p-12 lg:pt-16"
+                >
+                    <div class="flex flex-col xl:flex-row gap-12 lg:gap-16">
+                        <div class="flex-1 min-w-0">
+                            <header class="mb-12 space-y-8">
+                                <div class="space-y-6">
+                                    <nav
+                                        class="flex items-center gap-2 text-xs font-semibold text-slate-400 dark:text-slate-500 tracking-wider uppercase"
+                                    >
+                                        <span
+                                            class="hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-default"
+                                        >
+                                            {frontmatter?.section || "Docs"}
+                                        </span>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="10"
+                                            height="10"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="3"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            class="text-slate-300 dark:text-slate-800"
+                                            ><polyline points="9 18 15 12 9 6"
+                                            ></polyline></svg
+                                        >
+                                        <span
+                                            class={`text-${colorScheme}-500 dark:text-${colorScheme}-400 underline decoration-${colorScheme}-500/20 underline-offset-4 font-bold normal-case text-sm tracking-normal`}
+                                        >
+                                            {title}
+                                        </span>
+                                    </nav>
+
+                                    <div class="space-y-4">
+                                        <h1
+                                            class={`text-2xl md:text-4xl font-black tracking-tight text-${colorScheme}-500 dark:text-${colorScheme}-400 leading-[1.1]`}
+                                        >
+                                            {title}
+                                        </h1>
+                                        {
+                                            description && (
+                                                <p class="text-lg md:text-xl leading-relaxed text-slate-500 dark:text-slate-400 font-normal max-w-3xl">
+                                                    {description}
+                                                </p>
+                                            )
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="relative group">
+                                    <div
+                                        class={`absolute -inset-1 bg-gradient-to-r from-${colorScheme}-500/20 to-transparent rounded-2xl blur opacity-25 group-hover:opacity-40 transition duration-1000`}
+                                    >
+                                    </div>
+                                    <div
+                                        class="relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 rounded-2xl bg-white dark:bg-white/[0.02] border border-slate-100 dark:border-white/5 backdrop-blur-sm shadow-sm"
+                                    >
+                                        <div
+                                            class="flex flex-wrap items-center gap-y-4 gap-x-8 text-sm text-slate-500 dark:text-slate-400 font-medium"
+                                        >
+                                            <div
+                                                class="flex items-center gap-3"
+                                            >
+                                                <div
+                                                    class={`p-2 rounded-xl ${theme.badge} ${theme.text} shadow-inner`}
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="18"
+                                                        height="18"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        stroke-width="2"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        ><rect
+                                                            x="3"
+                                                            y="4"
+                                                            width="18"
+                                                            height="18"
+                                                            rx="2"
+                                                            ry="2"></rect><line
+                                                            x1="16"
+                                                            y1="2"
+                                                            x2="16"
+                                                            y2="6"></line><line
+                                                            x1="8"
+                                                            y1="2"
+                                                            x2="8"
+                                                            y2="6"></line><line
+                                                            x1="3"
+                                                            y1="10"
+                                                            x2="21"
+                                                            y2="10"></line></svg
+                                                    >
+                                                </div>
+                                                <div class="flex flex-col">
+                                                    <span
+                                                        class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-slate-500 font-bold"
+                                                        >Updated</span
+                                                    >
+                                                    <a
+                                                        href={commitUrl}
+                                                        target="_blank"
+                                                        class="text-slate-900 dark:text-slate-200 mt-0.5 hover:underline"
+                                                    >
+                                                        {lastUpdated}
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="flex items-center gap-3 md:border-l md:border-slate-100 dark:md:border-white/5 md:pl-8"
+                                            >
+                                                <div
+                                                    class={`p-2 rounded-xl ${theme.badge} ${theme.text} shadow-inner`}
+                                                >
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="18"
+                                                        height="18"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        stroke-width="2"
+                                                        stroke-linecap="round"
+                                                        stroke-linejoin="round"
+                                                        ><path
+                                                            d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                                                        ></path><circle
+                                                            cx="12"
+                                                            cy="7"
+                                                            r="4"></circle></svg
+                                                    >
+                                                </div>
+                                                <div class="flex flex-col">
+                                                    <span
+                                                        class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-slate-500 font-bold"
+                                                        >Updated by</span
+                                                    >
+                                                    <a
+                                                        href={commitUrl}
+                                                        target="_blank"
+                                                        class="text-slate-900 dark:text-slate-200 mt-0.5 hover:underline"
+                                                    >
+                                                        {updatedBy}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <a
+                                            href={editUrl}
+                                            target="_blank"
+                                            class={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-widest bg-white dark:bg-[#101012] text-slate-900 dark:text-white hover:text-${colorScheme}-600 dark:hover:text-${colorScheme}-400 border border-slate-200 dark:border-white/5 transition-all duration-300 shadow-lg shadow-black/5 dark:shadow-none hover:-translate-y-0.5`}
+                                        >
+                                            <GithubIcon
+                                                width="14"
+                                                height="14"
+                                            />
+                                            <span>Edit Page</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </header>
+
+                            <article class="doc-content max-w-none">
+                                <slot />
+                            </article>
+                        </div>
+
+                        <TableContent headings={headings} />
+                    </div>
+                </div>
+                <MainFooter />
+            </main>
+        </div>
+    </div>
+</MainLayout>
+
+<style is:global>
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(156, 163, 175, 0.3);
+        border-radius: 20px;
+    }
+    [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(156, 163, 175, 0.5);
+    }
+    [data-theme="dark"] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+</style>
