@@ -1,20 +1,33 @@
 {
   "name": "somdocs-starter",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "A modern, performance-focused documentation starter kit for Astro.",
+  "author": "Adam-Elmi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Adam-Elmi/SomDocs-Starter.git"
+  },
   "scripts": {
     "dev": "npm-run-all --parallel dev:astro dev:watcher",
     "dev:astro": "astro dev",
-    "dev:watcher": "npx chokidar \"**/*.mdx\" -c \"node src/data/helper.js\"",
-    "build": "astro build",
+    "dev:watcher": "npx chokidar \"**/*.mdx\" \"somdocs.config.json\" -c \"node src/data/helper.js\"",
+    "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
-    "create": "node src/data/helper.js"
+    "create": "node src/data/helper.js",
+    "cleanup": "node scripts/cleanup.js",
+    "refresh-search": "npm run build && cp -r dist/pagefind public/"
   },
   "dependencies": {
+    "@astrojs/check": "^0.9.6",
     "@astrojs/mdx": "^4.3.0",
+    "@astrojs/sitemap": "^3.6.1",
+    "@shikijs/transformers": "^3.20.0",
     "@tailwindcss/vite": "^4.1.4",
     "astro": "^5.7.7",
+    "pagefind": "^1.4.0",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
