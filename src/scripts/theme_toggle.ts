@@ -1,30 +1,42 @@
-import apply_icon from "./apply_icon";
-
 (() => {
-  const theme_toggle_btns: NodeListOf<HTMLButtonElement> = document.querySelectorAll("#theme-toggle-btn");
+  const theme_toggle_btns = document.querySelectorAll(".theme-toggle-btn") as NodeListOf<HTMLButtonElement>;
   const html = document.documentElement as HTMLHtmlElement;
-
-  const saved_theme: string | null = localStorage.getItem("theme-value");
-  if (saved_theme) {
-    html.dataset.theme = saved_theme;
-  }
 
   function theme_value(): string {
     return html.dataset.theme ?? "light";
   }
 
+  function update_buttons() {
+    const currentTheme = theme_value();
+    theme_toggle_btns.forEach((btn) => {
+      btn.setAttribute("aria-label", `Switch to ${currentTheme === "dark" ? "light" : "dark"} theme`);
+    });
+  }
+
+  function set_theme(theme: string) {
+    html.dataset.theme = theme;
+    localStorage.setItem("theme-value", theme);
+    update_buttons();
+  }
+
   document.addEventListener("DOMContentLoaded", (): void => {
-    apply_icon(theme_toggle_btns, html);
-    if (!saved_theme) {
+    if (!localStorage.getItem("theme-value")) {
       localStorage.setItem("theme-value", theme_value());
+    }
+    update_buttons();
+  });
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'theme-value' && event.newValue) {
+      html.dataset.theme = event.newValue;
+      update_buttons();
     }
   });
 
   theme_toggle_btns.forEach((toggle_btn: HTMLButtonElement): void => {
     toggle_btn.addEventListener("click", (): void => {
-      html.dataset.theme = html.dataset.theme === "dark" ? "light" : "dark";
-      localStorage.setItem("theme-value", theme_value());
-      apply_icon(theme_toggle_btns, html);
+      const newTheme = theme_value() === "dark" ? "light" : "dark";
+      set_theme(newTheme);
     });
   });
 })();
