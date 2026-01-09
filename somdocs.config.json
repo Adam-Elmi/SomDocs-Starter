@@ -1,0 +1,22 @@
+{
+  "onTop": [
+    "introduction",
+    "installation",
+    "configuration",
+    "writing-content",
+    "components",
+    "features"
+  ],
+  "repo_url": "https://github.com/Adam-Elmi/SomDocs-Starter",
+  "colorScheme": "orange",
+  "docs_path": "",
+  "show_contributors": false,
+  "sidebar": {
+    "collapsed": true,
+    "folders": {
+      "docs": false,
+      "level1": false,
+      "level2": false
+    }
+  }
+}
