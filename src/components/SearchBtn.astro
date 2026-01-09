@@ -1,16 +1,31 @@
 ---
 import SearchIcon from "../icons/SearchIcon.astro";
-const {is_full = false } = Astro.props;
+const { is_full = false } = Astro.props;
+
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+const theme = getTheme(colorScheme);
 ---
 
 <button
   id="search-btn"
-  class={`flex gap-2 ${is_full ? "w-full justify-between" : ""} items-center cursor-pointer border-1 border-slate-300 dark:border-slate-800 p-2 rounded-lg text-sm`}
+  class={`group flex items-center justify-between gap-3 px-3 py-2 text-sm font-medium text-slate-500 bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg transition-all duration-200 ${is_full ? "w-full" : ""} ${theme.hoverBorder} ${theme.hoverBg} shadow-sm hover:shadow-md cursor-pointer`}
+  aria-label="Search"
 >
-  <!-- Search Button -->
-  <div class="flex gap-2 items-center text-slate-400">
-    <SearchIcon width="16" height="16" />
-    Search...
+  <div class="flex items-center gap-2.5">
+    <span
+      class="text-slate-400 dark:text-slate-500 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors"
+    >
+      <SearchIcon width="16" height="16" />
+    </span>
+    <span
+      class="text-slate-500 dark:text-slate-400 group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors"
+      >Search...</span
+    >
   </div>
-  <span class="bg-gray-800 py-1 px-2 rounded-md text-[12px]">Ctrl + K</span>
+  <kbd
+    class="hidden sm:inline-flex items-center gap-1 font-sans text-[10px] font-medium text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded px-1.5 py-0.5 shadow-sm"
+  >
+    <span class="text-xs">⌘</span>K
+  </kbd>
 </button>
