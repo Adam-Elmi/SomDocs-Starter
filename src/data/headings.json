@@ -1,24 +1,70 @@
 [
   {
-    "filename": "adam",
-    "headers": []
-  },
-  {
-    "filename": "nice",
-    "headers": []
-  },
-  {
-    "filename": "welcome",
-    "headers": []
-  },
-  {
-    "filename": "hello",
+    "filename": "components",
+    "path": "docs/components",
     "headers": [
-      "Computer Programming"
+      "Components",
+      "CodeTabs",
+      "Steps",
+      "Message",
+      "TextHighlight",
+      "Table",
+      "References",
+      "Image",
+      "Colorize"
     ]
   },
   {
-    "filename": "learn",
-    "headers": []
+    "filename": "configuration",
+    "path": "docs/configuration",
+    "headers": [
+      "Configuration",
+      "Basic Configuration",
+      "Options",
+      "<TextHighlight color=\"green\">repo_url</TextHighlight>",
+      "<TextHighlight color=\"green\">colorScheme</TextHighlight>",
+      "<TextHighlight color=\"green\">onTop</TextHighlight>",
+      "<TextHighlight color=\"green\">sidebar</TextHighlight>"
+    ]
+  },
+  {
+    "filename": "features",
+    "path": "docs/features",
+    "headers": [
+      "Features",
+      "MDX Support",
+      "Code Blocks",
+      "Callouts / Messages",
+      "Auto-generated Sidebar",
+      "Full Text Search",
+      "Dark Mode"
+    ]
+  },
+  {
+    "filename": "installation",
+    "path": "docs/installation",
+    "headers": [
+      "Next Steps"
+    ]
+  },
+  {
+    "filename": "introduction",
+    "path": "docs/introduction",
+    "headers": [
+      "Introduction",
+      "Why SomDocs?",
+      "Prerequisities",
+      "Getting Started"
+    ]
+  },
+  {
+    "filename": "writing-content",
+    "path": "docs/writing-content",
+    "headers": [
+      "Writing Content",
+      "Adding a New Page",
+      "Organizing with Folders",
+      "Sidebar Order"
+    ]
   }
 ]
