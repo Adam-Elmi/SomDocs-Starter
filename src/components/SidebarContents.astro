@@ -1,85 +1,10 @@
 ---
-import DocIcon from "../icons/DocIcon.astro";
-import { compressText } from "../scripts/utils";
-import docs_sections from "../scripts/docs_sections";
+import SidebarItem from "./SidebarItem.astro";
 import contentsData from "../data/output.json";
-const contents: any = [];
-for (const content of contentsData) {
-    if (contentsData && contentsData.length > 0) {
-        if (Array.isArray(content.content)) {
-            for (const con of content.content) {
-                contents.push(con);
-            }
-        } else {
-            contents.push({
-                path: content.path,
-                title: content.content,
-                section: content.section,
-            });
-        }
-    }
-}
-const adjustedContents: any = {};
-
-for (let i = 0; i < docs_sections.length; i++) {
-    adjustedContents[i] = {
-        section: docs_sections[i],
-        content: [],
-    };
-}
-let keys = [];
-
-for (const [key, value] of Object.entries(adjustedContents)) {
-    // @ts-ignore
-    keys.push(value.section);
-}
-
-for (let i = 0; i < keys.length; i++) {
-    for (let j = 0; j < contents.length; j++) {
-        // @ts-ignore
-        if (keys[i] === contents[j].section) {
-            // console.log(adjustedContents[i.toString()]);
-            adjustedContents[i.toString()].content.push(contents[j]);
-        }
-    }
-}
-const finalOutput = [];
-
-for (const con in adjustedContents) {
-    finalOutput.push(adjustedContents[con]);
-}
-console.log(finalOutput[0]);
 ---
 
-<div class="p-2">
-    <ul class="ml-1 flex flex-col gap-2 px-1">
-        {
-            finalOutput.map((output) => (
-                <>
-                    <h1 class="font-semibold dark:text-white text-slate-700">
-                        {output.section
-                            .split(" ")
-                            .map(
-                                (value: string) =>
-                                    value[0].toUpperCase() + value.slice(1),
-                            )
-                            .join(" ")}
-                    </h1>
-                    {output.content.map((con: any) => (
-                        <li class="dark:text-slate-400/80 text-slate-500 flex gap-2 items-center text-[0.9rem] ml-2">
-                            <span>
-                                <DocIcon width="16" height="16" />
-                            </span>
-                            <a
-                            class="dark:hover:text-white hover:text-slate-400 transition duration-150"
-                            href={`${con.parent ? `/${con.parent}/${con.path}` : `/${con.path}`}`}
-                            >
-                                {compressText(con.title, 30)}
-                            </a>
-                        </li>
-                    ))}
-                </>
-            ))
-        }
+<div class="p-2 pb-10">
+    <ul class="flex flex-col gap-1 px-1">
+        {contentsData.map((item) => <SidebarItem item={item} />)}
     </ul>
 </div>
