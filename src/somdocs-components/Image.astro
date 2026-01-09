@@ -1,0 +1,108 @@
+---
+import type { ImageMetadata } from "astro";
+
+interface Props {
+    src: string | ImageMetadata;
+    alt?: string;
+    caption?: string;
+    width?: number | string;
+    height?: number | string;
+}
+
+const { src, alt = "", caption, width, height, ...attrs } = Astro.props;
+const imageSrc = typeof src === "string" ? src : src.src;
+const fileName =
+    typeof src === "string" ? src.split("/").pop() : src.src.split("/").pop();
+---
+
+<figure class="not-prose block my-0 p-0 mx-0 group/image-card">
+    <div
+        class="rounded-xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-sm bg-white dark:bg-zinc-900 flex flex-col"
+    >
+        {
+            caption && (
+                <div class="flex-none px-4 py-2.5 border-b border-slate-200 dark:border-white/10 bg-slate-50/80 dark:bg-white/[0.02] backdrop-blur-sm flex items-center justify-between gap-4">
+                    <div class="text-sm font-semibold text-slate-700 dark:text-slate-200 leading-none truncate">
+                        {caption}
+                    </div>
+
+                    <div class="flex items-center gap-1 opacity-0 group-hover/image-card:opacity-100 transition-opacity duration-200">
+                        <button
+                            class="p-1.5 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 hover:bg-slate-200/50 dark:hover:bg-white/10 rounded-md transition-colors copy-btn"
+                            title="Copy as Base64"
+                            data-copy-type="image"
+                            data-src={imageSrc}
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-copy text-slate-500 dark:text-slate-400"
+                            >
+                                <>
+                                    <rect
+                                        width="14"
+                                        height="14"
+                                        x="8"
+                                        y="8"
+                                        rx="2"
+                                        ry="2"
+                                    />
+                                    <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                                </>
+                            </svg>
+                        </button>
+                        <a
+                            href={imageSrc}
+                            download={fileName}
+                            class="p-1.5 text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 hover:bg-slate-200/50 dark:hover:bg-white/10 rounded-md transition-colors"
+                            title="Download"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="lucide lucide-download text-slate-500 dark:text-slate-400"
+                            >
+                                <>
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                    <polyline points="7 10 12 15 17 10" />
+                                    <line x1="12" x2="12" y1="15" y2="3" />
+                                </>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            )
+        }
+        <div class="flex-auto m-0 p-0 relative">
+            <img
+                src={imageSrc}
+                alt={alt}
+                width={width}
+                height={height}
+                class:list={[
+                    "block h-auto object-cover m-0 p-0 border-none outline-none",
+                    { "w-full": !width },
+                ]}
+                loading="lazy"
+                decoding="async"
+                {...attrs}
+            />
+        </div>
+    </div>
+</figure>
+
+<script src="../scripts/copyText.ts"></script>
