@@ -1,153 +1,146 @@
 import fs from "fs/promises";
 import path from "path";
 
-async function getContents(dirPath) {
+const PAGES_DIR = path.join(".", "src", "pages");
+const OUTPUT_PATH = path.join(".", "src", "data", "output.json");
+const HEADINGS_OUTPUT_PATH = path.join(".", "src", "data", "headings.json");
+const CONFIG_PATH = path.join(".", "somdocs.config.json");
+
+let onTop = [];
+
+function prioritySort(a, b) {
+  const aIndex = onTop.indexOf(a.name);
+  const bIndex = onTop.indexOf(b.name);
+
+  if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+  if (aIndex !== -1) return -1;
+  if (bIndex !== -1) return 1;
+
+  return 0;
+}
+
+async function getTitle(filePath) {
   try {
-    if (dirPath) {
-      return await fs.readdir(dirPath);
-    } else {
-      throw new Error("Please provide the path!");
+    const content = await fs.readFile(filePath, "utf-8");
+    const match = content.match(/^title:\s*(.+)$/m);
+    if (match) {
+      return match[1].trim().replace(/^["']|["']$/g, "");
     }
+  } catch (e) {
+    console.error(`Error reading title from ${filePath}:`, e);
+  }
+  return null;
+}
+
+function parseHeaders(content) {
+  let cleanContent = content.replace(/^---[\s\S]*?---/, '');
+
+  cleanContent = cleanContent.replace(/```[\s\S]*?```/g, '');
+  cleanContent = cleanContent.replace(/`[\s\S]*?`/g, '');
+
+  const headers = [];
+
+  const markdownRegex = /^\s*(#{1,6})\s+(.+)$/gm;
+  let match;
+  while ((match = markdownRegex.exec(cleanContent)) !== null) {
+    headers.push({
+      depth: match[1].length,
+      text: match[2].trim()
+    });
+  }
+
+  const htmlRegex = /<(h[1-6])[\s\S]*?>([\s\S]*?)<\/\1>/gi;
+  while ((match = htmlRegex.exec(cleanContent)) !== null) {
+    headers.push({
+      depth: parseInt(match[1][1]),
+      text: match[2].replace(/<[^>]*>?/gm, '').trim()
+    });
+  }
+
+  return headers;
+}
+
+async function processDirectory(dir, relativePath = "") {
+  const items = await fs.readdir(dir);
+  const tree = [];
+  const headings = [];
+
+  for (const item of items) {
+    if (item.startsWith(".") || item === "node_modules" || item === "api") continue;
+
+    const fullPath = path.join(dir, item);
+    const itemRelativePath = path.join(relativePath, item);
+    const stats = await fs.stat(fullPath);
+
+    if (stats.isDirectory()) {
+      const result = await processDirectory(fullPath, itemRelativePath);
+      if (result.tree.length > 0) {
+        const label = item.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        tree.push({
+          type: "folder",
+          name: item,
+          label: label,
+          path: itemRelativePath,
+          children: result.tree.sort(prioritySort)
+        });
+        headings.push(...result.headings);
+      }
+    } else if (item.endsWith(".mdx") || item.endsWith(".md")) {
+      const content = await fs.readFile(fullPath, "utf-8");
+      const title = await getTitle(fullPath);
+      const name = item.slice(0, item.lastIndexOf("."));
+      const docPath = itemRelativePath.slice(0, itemRelativePath.lastIndexOf("."));
+
+      if (relativePath === "" && (name === "index" || name === "404")) continue;
+
+      tree.push({
+        type: "file",
+        name: name,
+        label: title || name,
+        path: docPath
+      });
+
+      const docHeaders = parseHeaders(content);
+      headings.push({
+        filename: name,
+        path: docPath,
+        headers: docHeaders.map(h => h.text)
+      });
+    }
+  }
+
+  return { tree: tree.sort(prioritySort), headings };
+}
+
+async function run() {
+  console.log("Starting data generation...");
+  try {
+    try {
+      const configRaw = await fs.readFile(CONFIG_PATH, "utf-8");
+      const config = JSON.parse(configRaw);
+      onTop = config.onTop || [];
+    } catch (e) {
+      console.warn("Failed to load somdocs.config.json, using default sorting.");
+    }
+
+    if (!(await fs.stat(PAGES_DIR).catch(() => null))) {
+      console.error("Pages directory not found!");
+      return;
+    }
+
+    const { tree, headings } = await processDirectory(PAGES_DIR);
+
+    const finalTree = tree;
+
+    await fs.writeFile(OUTPUT_PATH, JSON.stringify(finalTree, null, 2));
+    console.log(`Successfully created ${OUTPUT_PATH} with ${finalTree.length} top-level items.`);
+
+    await fs.writeFile(HEADINGS_OUTPUT_PATH, JSON.stringify(headings, null, 2));
+    console.log(`Successfully created ${HEADINGS_OUTPUT_PATH} with ${headings.length} pages.`);
+
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Failed to generate data:", error);
   }
 }
 
-(async () => {
-  const baseDir = path.join(".", "src", "pages");
-  const contents = await getContents(baseDir);
-  function filterContents(arg) {
-    if (arg && Array.isArray(arg) && arg.length > 0) {
-      return arg.filter((con) => con.slice(con.lastIndexOf(".") + 1) === "mdx");
-    } else {
-      if (arg && arg !== "") {
-        return arg.slice(arg.lastIndexOf(".") + 1) === "mdx";
-      }
-    }
-  }
-  async function getTitle(filePath) {
-    if (filePath) {
-      const fullPath = path.join(baseDir, filePath);
-      const buffer = await fs.readFile(fullPath);
-      const readContent = buffer.toString();
-      const titleIndex = readContent.indexOf("\ntitle:");
-      if (titleIndex === -1) {
-        throw new Error(`No title found in file: ${filePath}`);
-      }
-      const title = readContent
-        .slice(titleIndex + 7)
-        .trim();
-      const newlineIndex = title.indexOf("\n");
-      const full_title = (newlineIndex !== -1 ? title.slice(0, newlineIndex) : title)
-        .replaceAll('"', "").replaceAll("\r", "");
-      return full_title;
-    }
-  }
-  async function getSection(filePath) {
-    if (filePath) {
-      const fullPath = path.join(baseDir, filePath);
-      const buffer = await fs.readFile(fullPath);
-      const readContent = buffer.toString();
-      const sectionIndex = readContent.indexOf("\nsection:");
-      if (sectionIndex === -1) {
-        throw new Error(`No section found in file: ${filePath}`);
-      }
-      const section = readContent
-        .slice(sectionIndex + 10)
-        .trim();
-      const newlineIndex = section.indexOf("\n");
-      const full_section = (newlineIndex !== -1 ? section.slice(0, newlineIndex) : section)
-        .replaceAll('"', "").replaceAll("\r", "");
-      return full_section.toLowerCase();
-    }
-  }
-  async function createJson() {
-    try {
-      const data = [];
-      if (contents && Array.isArray(contents) && contents.length > 0) {
-        for (const content of contents) {
-          try {
-            const contentDir = path.join(baseDir, content);
-            const con = await fs.readdir(contentDir);
-            const titles = [];
-            for (const file of filterContents(con)) {
-              const filePath = path.join(content, file);
-              const title = await getTitle(filePath);
-              if (title) {
-                titles.push({path: file.slice(0, file.indexOf(".")), title: title, parent: content, section: await getSection(filePath)});
-              }
-            }
-            data.push({
-              path: content,
-              content: titles,
-            });
-          } catch (err) {
-            if (filterContents(content)) {
-              data.push({content: await getTitle(content), path: content.slice(0, content.indexOf(".")), section: await getSection(content) });
-            }
-          }
-        }
-        return data;
-      } else {
-        throw new Error("Please provide the path!");
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const output = await createJson();
-
-  try {
-    const outputPath = path.join(".", "src", "data", "output.json");
-    await fs.writeFile(
-      outputPath,
-      JSON.stringify(output, null, 2),
-    );
-    console.log("Successfully added!");
-  } catch (error) {
-    console.error("Failed to write output.json:", error);
-  }
-  async function extractHeadings() {
-    const headingsData = [];
-    async function getHeadings(filePath) {
-      const fullPath = path.join(baseDir, filePath);
-      const buffer = await fs.readFile(fullPath);
-      const content = buffer.toString();
-      const headingRegex = /^#{1,6}\s+(.*)$/gm;
-      const headers = [];
-      let match;
-      while ((match = headingRegex.exec(content)) !== null) {
-        headers.push(match[1]);
-      }
-      return headers;
-    }
-    async function processDir(dir) {
-      const dirFullPath = path.join(baseDir, dir);
-      const files = await fs.readdir(dirFullPath);
-      for (const file of files) {
-        if (filterContents([file]).length > 0) {
-          const filePath = path.join(dir, file);
-          const headers = await getHeadings(filePath);
-          headingsData.push({filename: file.slice(0, file.indexOf(".")), headers: headers});
-        }
-      }
-    }
-    for (const item of contents) {
-      try {
-        const itemPath = path.join(baseDir, item);
-        const stat = await fs.stat(itemPath);
-        if (stat.isDirectory()) {
-          await processDir(item);
-        } else if (filterContents([item]).length > 0) {
-          const headers = await getHeadings(item);
-          headingsData.push({filename: item.slice(0, item.indexOf(".")), headers: headers});
-        }
-      } catch (e) {}
-    }
-    const headingsOutputPath = path.join(".", "src", "data", "headings.json");
-    await fs.writeFile(headingsOutputPath, JSON.stringify(headingsData, null, 2));
-  }
-  await extractHeadings();
-})();
+run();
