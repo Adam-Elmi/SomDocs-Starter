@@ -1,0 +1,15 @@
+---
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+
+const { color } = Astro.props;
+
+const activeScheme = color ? color : colorScheme;
+const theme = getTheme(activeScheme);
+
+const highlightClass = `${theme.highlight} ${theme.text} px-1 rounded`;
+---
+
+<span class={highlightClass}>
+    <slot />
+</span>
