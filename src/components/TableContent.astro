@@ -1,0 +1,125 @@
+---
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme.js";
+
+const theme = getTheme(colorScheme);
+
+interface Props {
+    headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings = [] } = Astro.props;
+
+const tocHeadings = headings.filter((h) => h.depth > 0 && h.depth < 4);
+---
+
+<nav
+    class="toc-container w-full xl:max-w-[240px] xl:sticky xl:top-24 self-start border-t xl:border-t-0 xl:border-l border-slate-100 dark:border-white/5 pt-8 xl:pt-0 xl:pl-4 mb-12 xl:mb-0"
+>
+    <div class="flex items-center gap-2 mb-4 px-3">
+        <h2
+            class="text-xs font-bold tracking-tight uppercase text-slate-800 dark:text-slate-200"
+        >
+            On this page
+        </h2>
+    </div>
+
+    <ul class="space-y-1 relative pl-3">
+        <div
+            class="absolute left-0 top-0 bottom-0 w-[1px] bg-slate-100 dark:bg-white/5"
+        >
+        </div>
+
+        <div
+            id="toc-marker"
+            class={`absolute left-0 w-px h-6 bg-${colorScheme}-500 transition-all duration-300 opacity-0`}
+        >
+        </div>
+
+        {
+            tocHeadings.length > 0 ? (
+                tocHeadings.map((heading) => (
+                    <li
+                        class={`toc-item depth-${heading.depth} group relative`}
+                        data-slug={heading.slug}
+                    >
+                        <a
+                            href={`#${heading.slug}`}
+                            class={`
+                            block py-1 pr-4 text-[13px] leading-relaxed transition-all duration-200
+                            ${heading.depth === 1 ? "pl-2 font-bold" : heading.depth === 2 ? "pl-4 font-medium" : "pl-8 text-slate-500 dark:text-slate-400 font-normal"}
+                            text-slate-600 dark:text-slate-400
+                            hover:text-slate-900 dark:hover:text-white
+                            group-[.active]:${theme.text} group-[.active]:font-semibold
+                        `}
+                        >
+                            {heading.text}
+                        </a>
+                    </li>
+                ))
+            ) : (
+                <li class="pl-3 py-1 text-[13px] text-slate-400 dark:text-slate-500 italic">
+                    No headings found
+                </li>
+            )
+        }
+    </ul>
+</nav>
+
+<script>
+    const observerOptions = {
+        root: null,
+        rootMargin: "-100px 0px -66%",
+        threshold: 1.0,
+    };
+
+    const marker = document.getElementById("toc-marker");
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute("id");
+                updateActiveHeading(id);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll("h2[id], h3[id]").forEach((section) => {
+        observer.observe(section);
+    });
+
+    function updateActiveHeading(id: string | null) {
+        if (!id) return;
+
+        document.querySelectorAll(".toc-item").forEach((item) => {
+            item.classList.remove("active");
+        });
+        const activeItem = document.querySelector(
+            `.toc-item[data-slug="${id}"]`,
+        ) as HTMLElement;
+        if (activeItem && marker) {
+            activeItem.classList.add("active");
+
+            const itemRect = activeItem.getBoundingClientRect();
+            const listRect =
+                activeItem.parentElement?.getBoundingClientRect() || { top: 0 };
+
+            marker.style.opacity = "1";
+            marker.style.height = `${itemRect.height}px`;
+            marker.style.top = `${itemRect.top - listRect.top}px`;
+        }
+    }
+
+    document.querySelectorAll(".toc-item a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const id = link.getAttribute("href")?.substring(1);
+            if (id) updateActiveHeading(id);
+        });
+    });
+</script>
+
+<style>
+    #toc-marker {
+        transition-property: top, height, opacity;
+    }
+</style>
