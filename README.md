@@ -2,6 +2,26 @@
 
 Welcome to the **SomDocs Starter Kit**! This is a modern, performance-focused documentation template built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com). It features dynamic sidebar generation, robust search, and a suite of custom components to make your documentation beautiful and functional.
 
+<br />
+
+![Home Page](public/screenshots/screenshot-1.png)
+
+<br />
+
+<details>
+<summary><kbd>View More Screenshots</kbd></summary>
+
+<br />
+
+|                                                      |                                                      |
+| ---------------------------------------------------- | ---------------------------------------------------- |
+| ![Screenshot 2](public/screenshots/screenshot-2.png) | ![Screenshot 3](public/screenshots/screenshot-3.png) |
+| ![Screenshot 4](public/screenshots/screenshot-4.png) | ![Screenshot 5](public/screenshots/screenshot-5.png) |
+
+</details>
+
+<br />
+
 ## Getting Started
 
 ### 1. Installation
