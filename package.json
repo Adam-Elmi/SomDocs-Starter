@@ -18,7 +18,8 @@
     "astro": "astro",
     "create": "node src/data/helper.js",
     "cleanup": "node scripts/cleanup.js",
-    "refresh-search": "npm run build && cp -r dist/pagefind public/"
+    "refresh-search": "npm run build && cp -r dist/pagefind public/",
+    "fetch-metadata": "node src/scripts/fetch_metadata.js"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
