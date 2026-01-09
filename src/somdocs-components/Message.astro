@@ -6,51 +6,73 @@ import ErrorIcon from "../icons/ErrorIcon.astro";
 
 const { type } = Astro.props as { type: "note" | "tip" | "warning" | "error" };
 
-const styles: Record<string, string> = {
-    note: "bg-blue-500/20 text-blue-700 dark:text-blue-100",
-    tip: "bg-emerald-500/20 text-emerald-700 dark:text-emerald-100",
-    warning: "bg-amber-500/20 text-amber-700 dark:text-amber-100",
-    error: "bg-red-500/20 text-red-700 dark:text-red-100",
+const config = {
+    note: {
+        icon: InfoIcon,
+        title: "Note",
+        containerClass:
+            "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800",
+        iconClass: "text-blue-600 dark:text-blue-400",
+        titleClass: "text-blue-700 dark:text-blue-300",
+    },
+    tip: {
+        icon: BulbIcon,
+        title: "Tip",
+        containerClass:
+            "bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800",
+        iconClass: "text-emerald-600 dark:text-emerald-400",
+        titleClass: "text-emerald-700 dark:text-emerald-300",
+    },
+    warning: {
+        icon: WarnIcon,
+        title: "Warning",
+        containerClass:
+            "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800",
+        iconClass: "text-amber-600 dark:text-amber-400",
+        titleClass: "text-amber-700 dark:text-amber-300",
+    },
+    error: {
+        icon: ErrorIcon,
+        title: "Error",
+        containerClass:
+            "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800",
+        iconClass: "text-red-600 dark:text-red-400",
+        titleClass: "text-red-700 dark:text-red-300",
+    },
 };
-const borderStyle: Record<string, string> = {
-    note: "border-2 border-blue-300 dark:border-blue-400",
-    tip: "border-2 border-emerald-300 dark:border-emerald-400",
-    warning: "border-2 border-amber-300/70 dark:border-amber-300",
-    error: "border-2 border-red-300 dark:border-red-400",
-};
+
+const {
+    icon: Icon,
+    title,
+    containerClass,
+    iconClass,
+    titleClass,
+} = config[type] || config.note;
 ---
 
-<div
-    id="msg-container"
-    class={`my-2 rounded-md shadow-md flex flex-col gap-1 max-[500px]:text-sm overflow-hidden ${borderStyle[type]}`}
->
-    <div class={`w-full ${styles[type]} p-2`}>
-        <div class="mr-2">
-            {
-                type === "note" ? (
-                    <span class="flex items-center gap-2 font-bold">
-                        <InfoIcon /> Note
-                    </span>
-                ) : type === "warning" ? (
-                    <span class="flex items-center gap-2 font-bold">
-                        <WarnIcon /> Warning
-                    </span>
-                ) :
-                type === "tip" ? 
-                (
-                <span class="flex items-center gap-2 font-bold">
-                    <BulbIcon/> Tip
-                </span>
-                )
-                :(
-                    <span class="flex items-center gap-2 font-bold">
-                        <ErrorIcon /> Error
-                    </span>
-                )
-            }
-        </div>
+<div class={`som-message my-4 rounded-lg border px-4 py-2 ${containerClass}`}>
+    <div class="flex items-center gap-2 mb-2 font-semibold">
+        <span class={iconClass}>
+            <Icon width="20" height="20" />
+        </span>
+        <span class={titleClass}>{title}</span>
     </div>
-    <div class="flex flex-col gap-2 leading-6 p-4 text-slate-700 dark:text-slate-100 bg-white dark:bg-[#11111b]">
+    <div
+        class="message-content text-sm leading-relaxed text-slate-700 dark:text-slate-300"
+    >
         <slot />
     </div>
 </div>
+
+<style is:global>
+    .som-message .message-content p {
+        margin-bottom: 0.5rem;
+    }
+    .som-message .message-content p:last-child {
+        margin-bottom: 0;
+    }
+    .som-message .message-content ul,
+    .som-message .message-content ol {
+        margin-bottom: 0.5rem;
+    }
+</style>
