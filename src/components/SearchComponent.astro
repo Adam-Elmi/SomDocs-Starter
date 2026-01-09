@@ -1,60 +1,251 @@
 ---
 import SearchIcon from "../icons/SearchIcon.astro";
 import SearchResultIcon from "../icons/SearchResultIcon.astro";
+import LoadingIcon from "../icons/LoadingIcon.astro";
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+
+const theme = getTheme(colorScheme);
 ---
-<!-- Background -->
+
 <div
   id="search-main-container"
-  class="fixed inset-0 backdrop-blur-md z-9999 hidden justify-center items-start pt-10 w-full bg-[#101012]/70"
+  data-theme-text={theme.text}
+  data-theme-hover={theme.hoverText}
+  class="fixed inset-0 z-[9999] hidden justify-center items-start pt-[10vh] w-full bg-slate-900/60 backdrop-blur-sm transition-opacity duration-300 opacity-0"
 >
-<!-- Search Container -->
   <div
     id="search-container"
-    class="bg-white dark:bg-[#101012] max-w-[800px] overflow-hidden w-full rounded-lg border-[1.5px] border-gray-500/20"
+    class="bg-white dark:bg-[#101012] w-full max-w-2xl mx-4 rounded-2xl shadow-2xl border border-slate-200 dark:border-white/10 overflow-hidden transform transition-all duration-300 scale-95 opacity-0 flex flex-col max-h-[70vh]"
   >
-  <!-- Result Header -->
-    <div class="flex gap-2 items-center border-b-[1.2px] border-gray-500/20 px-2">
-      <span class="text-slate-500">
-        <SearchIcon width="20" height="20" />
+    <div
+      class="flex gap-3 items-center border-b border-slate-100 dark:border-white/5 px-5 py-4 relative"
+    >
+      <span class="text-slate-400 dark:text-slate-500">
+        <SearchIcon width="24" height="24" />
       </span>
       <input
         type="search"
-        name="seach-input"
         id="search-input"
-        placeholder="Search..."
-        class="w-full outline-none p-2 text-slate-500 dark:text-slate-200"
+        placeholder="Search documentation..."
+        class="w-full bg-transparent text-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-600 outline-none"
+        autocomplete="off"
       />
+
+      <div id="search-loading" class={`hidden ${theme.text}`}>
+        <LoadingIcon width="24" height="24" />
+      </div>
     </div>
-    <!-- Search Result Container -->
-    <div id="search-result-container">
+    <div
+      id="search-result-container"
+      class="hidden flex-1 overflow-y-auto custom-scrollbar"
+    >
       <div
-        id="result-header"
-        class="p-2 border-b border-gray-500/20 flex gap-2 items-center justify-between"
+        class="px-5 py-3 border-b border-slate-100 dark:border-white/5 flex gap-2 items-center justify-between text-[11px] font-bold text-slate-400 dark:text-slate-600 uppercase tracking-widest"
       >
-        <span class="text-slate-500 flex gap-1 items-center">
-          <SearchResultIcon width="22" height="22" />
-          Result
-        </span>
+        <div class="flex items-center gap-2">Search Results</div>
         <span
-          class="px-2 py-1 rounded-md border border-gray-500/20 text-slate-200"
-        >
-          N/A
-        </span>
+          id="result-count"
+          class="bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-full"
+        ></span>
       </div>
-      <div
-        id="search-result"
-        class="overflow-y-scroll max-h-[300px] text-center flex justify-center items-center text-slate-300 p-2 leading-8 border-b-[1.2px] border-gray-200 dark:border-gray-800/40 min-h-[100px]"
+
+      <ul
+        id="search-result-list"
+        class="divide-y divide-slate-100 dark:divide-white/5 p-2"
       >
-      No result found
+      </ul>
+    </div>
+
+    <div id="search-empty-state" class="py-16 px-4 text-center">
+      <div
+        class="inline-flex justify-center items-center w-12 h-12 rounded-full bg-slate-100 dark:bg-white/5 text-slate-400 mb-4"
+      >
+        <SearchIcon width="24" height="24" />
+      </div>
+      <p class="text-slate-500 dark:text-slate-400 text-lg">
+        Type to start searching...
+      </p>
+    </div>
+
+    <div
+      class="bg-slate-50 dark:bg-[#151518] px-5 py-3 border-t border-slate-100 dark:border-white/5 flex justify-between items-center text-xs text-slate-400 dark:text-slate-600"
+    >
+      <div class="flex gap-4">
+        <span
+          ><span class="font-semibold text-slate-500 dark:text-slate-400"
+            >Enter</span
+          > to select</span
+        >
+        <span
+          ><span class="font-semibold text-slate-500 dark:text-slate-400"
+            >↑↓</span
+          > to navigate</span
+        >
+      </div>
+      <div class="flex gap-1.5 items-center">
+        <span
+          class="px-2 py-1 rounded bg-slate-200 dark:bg-white/10 font-mono text-[10px] text-slate-600 dark:text-slate-300 shadow-sm"
+          >ESC</span
+        >
+        to close
       </div>
     </div>
-    <!-- Footer -->
-     <div class="flex justify-end items-center p-2 italic">
-        <div class="flex gap-2 items-center text-slate-700">
-            Press
-            <span class="px-2 py-1 rounded-md text-[#ff416c] text-sm border border-gray-500/20">ESC</span>
-            to close
-        </div>
-     </div>
   </div>
 </div>
+
+<script>
+  import { debouncedHandleSearch } from "../scripts/search_functionality";
+
+  const container = document.getElementById("search-main-container");
+  const modal = document.getElementById("search-container");
+  const input = document.getElementById("search-input") as HTMLInputElement;
+  const resultContainer = document.getElementById("search-result-container");
+  const resultList = document.getElementById("search-result-list");
+  const emptyState = document.getElementById("search-empty-state");
+  const resultCount = document.getElementById("result-count");
+  const loadingIndicator = document.getElementById("search-loading");
+
+  const themeText = container?.dataset.themeText || "";
+  const themeHover = container?.dataset.themeHover || "";
+
+  const setLoading = (loading: boolean) => {
+    if (loading) {
+      loadingIndicator?.classList.remove("hidden");
+    } else {
+      loadingIndicator?.classList.add("hidden");
+    }
+  };
+
+  const setResults = (results: any[]) => {
+    if (
+      !resultContainer ||
+      !emptyState ||
+      !resultCount ||
+      !resultList ||
+      !input
+    )
+      return;
+
+    if (results.length > 0) {
+      resultContainer.classList.remove("hidden");
+      emptyState.classList.add("hidden");
+      resultCount.textContent = `${results.length}`;
+
+      resultList.innerHTML = results
+        .map(
+          (result: any) => `
+            <li>
+                <a href="${result.url}" class="block px-4 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 group transition-colors duration-200">
+                    <div class="font-medium text-slate-800 dark:text-slate-200 ${themeHover} text-lg mb-1">
+                        ${result.title}
+                    </div>
+                    ${
+                      result.excerpt
+                        ? `
+                        <div class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed" innerHTML="${result.excerpt}"></div>
+                    `
+                        : ""
+                    }
+                </a>
+            </li>
+        `,
+        )
+        .join("");
+
+      const excerpts = resultList.querySelectorAll(".line-clamp-2");
+      results.forEach((result: any, index: number) => {
+        if (excerpts[index] && result.excerpt) {
+          excerpts[index].innerHTML = result.excerpt;
+          const marks = excerpts[index].querySelectorAll("mark");
+          marks.forEach((mark) => {
+            mark.className = `bg-transparent ${themeText} font-semibold custom-marker`;
+          });
+        }
+      });
+    } else {
+      resultContainer.classList.add("hidden");
+      emptyState.classList.remove("hidden");
+      const emptyText = emptyState.querySelector("p");
+      if (emptyText) {
+        if (input.value.trim() !== "") {
+          emptyText.textContent = 'No results found for "' + input.value + '"';
+        } else {
+          emptyText.textContent = "Type to start searching...";
+        }
+      }
+    }
+  };
+
+  input?.addEventListener("input", (e) => {
+    debouncedHandleSearch(e, setResults, setLoading);
+  });
+
+  const openSearch = () => {
+    if (container) {
+      container.classList.remove("hidden");
+      container.classList.add("flex");
+      void container.offsetWidth;
+      container.classList.remove("opacity-0");
+
+      if (modal) {
+        modal.classList.remove("scale-95", "opacity-0");
+        modal.classList.add("scale-100", "opacity-100");
+      }
+      input?.focus();
+    }
+  };
+
+  const closeSearch = () => {
+    if (container && modal) {
+      container.classList.add("opacity-0");
+      modal.classList.remove("scale-100", "opacity-100");
+      modal.classList.add("scale-95", "opacity-0");
+
+      setTimeout(() => {
+        container.classList.add("hidden");
+        container.classList.remove("flex");
+        if (input) input.value = "";
+        setResults([]);
+      }, 300);
+    }
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Escape" &&
+      container &&
+      !container.classList.contains("hidden")
+    ) {
+      const closeEvent = new CustomEvent("close-search");
+      window.dispatchEvent(closeEvent);
+    }
+  });
+
+  window.addEventListener("open-search", openSearch);
+  window.addEventListener("close-search", closeSearch);
+
+  container?.addEventListener("click", (e) => {
+    if (e.target === container) {
+      const closeEvent = new CustomEvent("close-search");
+      window.dispatchEvent(closeEvent);
+    }
+  });
+</script>
+
+<style>
+  /* Custom scrollba for results */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.3);
+    border-radius: 20px;
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+</style>
