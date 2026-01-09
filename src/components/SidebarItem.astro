@@ -1,0 +1,79 @@
+---
+import DocIcon from "../icons/DocIcon.astro";
+import { sidebar } from "../../somdocs.config.json";
+
+const { item } = Astro.props;
+const globalCollapsed = sidebar?.collapsed ?? true;
+const folders = (sidebar as any)?.folders || {};
+const folderSpecific = folders[item.name];
+const isCollapsed =
+    folderSpecific !== undefined ? folderSpecific : globalCollapsed;
+
+const normalizePath = (p: string) => p.replace(/\/$/, "");
+const currentPath = normalizePath(Astro.url.pathname);
+const itemPath = normalizePath(`/${item.path}`);
+const isActive = currentPath === itemPath;
+
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+const theme = getTheme(colorScheme);
+---
+
+<li class="flex flex-col gap-1">
+    {
+        item.type === "folder" ? (
+            <details class="group" open={!isCollapsed}>
+                <summary
+                    class={`cursor-pointer list-none flex items-center gap-2 p-1.5 ${theme.hoverBg} rounded-md text-sm text-slate-700 dark:text-slate-300 ${theme.hoverText} font-medium select-none transition-colors`}
+                >
+                    <span class="transform transition-transform duration-200 group-open:rotate-90 text-slate-400">
+                        <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <polyline points="9 18 15 12 9 6" />
+                        </svg>
+                    </span>
+                    <span>{item.label}</span>
+                </summary>
+                <ul class="ml-3 flex flex-col gap-1 border-l border-slate-200 dark:border-slate-800 pl-2 mt-1 relative">
+                    {item.children.map(
+                        (child: {
+                            type: string;
+                            name: string;
+                            label: string;
+                            path: string;
+                            children?: any[];
+                        }) => (
+                            <Astro.self item={child} />
+                        ),
+                    )}
+                </ul>
+            </details>
+        ) : (
+            <a
+                href={`/${item.path}`}
+                title={item.label}
+                class={`flex items-center gap-2 p-1.5 text-sm rounded-md transition-all duration-200 ease-out
+                ${
+                    isActive
+                        ? `${theme.activeBg} ${theme.activeText} ${theme.shadow} shadow-md transform scale-100 font-medium tracking-wide`
+                        : `text-slate-600 dark:text-slate-400 ${theme.hoverBg} ${theme.hoverText} active:scale-95 transition-all`
+                }`}
+            >
+                <span
+                    class={`opacity-70 shrink-0 ${isActive ? "text-white" : ""}`}
+                >
+                    <DocIcon width="14" height="14" />
+                </span>
+                <span class="truncate">{item.label}</span>
+            </a>
+        )
+    }
+</li>
