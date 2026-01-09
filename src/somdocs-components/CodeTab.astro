@@ -1,0 +1,10 @@
+---
+const { title } = Astro.props;
+---
+
+<div class="code-tab hidden" data-title={title}>
+    <div class="code-tab-icon hidden">
+        <slot name="icon" />
+    </div>
+    <slot />
+</div>
