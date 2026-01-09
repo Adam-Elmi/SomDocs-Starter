@@ -1,0 +1,124 @@
+---
+import GithubIcon from "../icons/GithubIcon.astro";
+import DiscordIcon from "../icons/DiscordIcon.astro";
+import FacebookIcon from "../icons/FacebookIcon.astro";
+import X_Icon from "../icons/X_Icon.astro";
+import { SOCIALS } from "../constant/social";
+import { FOOTER_SECTIONS } from "../constant/sections";
+import { SITE } from "../constant/site";
+
+const ICON_MAP = {
+    github: GithubIcon,
+    discord: DiscordIcon,
+    facebook: FacebookIcon,
+    x: X_Icon,
+};
+
+const socialKeys = Object.keys(SOCIALS) as (keyof typeof SOCIALS)[];
+---
+
+<footer
+    class="mt-auto w-full bg-white dark:bg-[#101012] border-t border-slate-200 dark:border-white/5 transition-colors duration-300"
+>
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div class="flex flex-col lg:flex-row justify-between gap-10 lg:gap-20">
+            <div class="flex flex-col gap-4 max-w-sm">
+                <a href="/" class="flex items-center gap-2 group">
+                    <img
+                        src={SITE.logo.icon}
+                        alt={SITE.logo.name}
+                        class="w-8 h-8 group-hover:opacity-80 transition-opacity"
+                    />
+                    <span
+                        class="font-bold text-xl tracking-tight text-slate-900 dark:text-white"
+                    >
+                        {SITE.logo.name}
+                    </span>
+                </a>
+                <p
+                    class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed"
+                >
+                    A beautiful, performant, and type-safe documentation
+                    template built with Astro and Tailwind CSS.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-10 sm:gap-20 lg:ml-auto">
+                <div class="flex flex-col gap-4">
+                    <h3
+                        class="font-semibold text-slate-900 dark:text-white tracking-wide text-sm uppercase"
+                    >
+                        Navigate
+                    </h3>
+                    <ul class="flex flex-col gap-3">
+                        {
+                            FOOTER_SECTIONS.map((section) => (
+                                <li>
+                                    <a
+                                        href={section.path}
+                                        class="text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                                    >
+                                        {section.name}
+                                    </a>
+                                </li>
+                            ))
+                        }
+                    </ul>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <h3
+                        class="font-semibold text-slate-900 dark:text-white tracking-wide text-sm uppercase"
+                    >
+                        Community
+                    </h3>
+                    <div class="flex gap-4 flex-wrap max-w-[200px]">
+                        {
+                            socialKeys.map((key) => {
+                                const social = SOCIALS[key];
+                                if (!social.url) return null;
+
+                                const Icon =
+                                    ICON_MAP[key as keyof typeof ICON_MAP];
+                                if (!Icon) return null;
+
+                                return (
+                                    <a
+                                        href={social.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        class={`text-slate-400 dark:text-slate-500 transition-colors duration-200 ${social.style || "hover:text-slate-900 dark:hover:text-white"}`}
+                                        aria-label={social.title || key}
+                                        title={social.title}
+                                    >
+                                        <Icon width="20" height="20" />
+                                    </a>
+                                );
+                            })
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="mt-12 pt-8 border-t border-slate-100 dark:border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-slate-500 dark:text-slate-500"
+        >
+            <p>
+                &copy; {new Date().getFullYear()}
+                {SITE.name}. All rights reserved.
+            </p>
+            <p class="flex items-center gap-1">
+                Built by
+                <a
+                    href="https://github.com/Adam-Elmi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="font-medium text-slate-900 dark:text-white hover:underline underline-offset-4 transition-all"
+                >
+                    Adam Elmi
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
