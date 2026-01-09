@@ -1,47 +1,81 @@
 ---
-import { logo, github, name } from "../../somdocs.data.json";
+import { SITE } from "../constant/site";
+import { SOCIALS } from "../constant/social";
 import SearchBtn from "./SearchBtn.astro";
 import GithubIcon from "../icons/GithubIcon.astro";
+import SunIcon from "../icons/SunIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
 import MenuIcon from "../icons/MenuIcon.astro";
-import "../styles/somdocs.style.css";
 import SectionsComponent from "./SectionsComponent.astro";
+import { NAV_SECTIONS } from "../constant/sections";
+
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+
+const theme = getTheme(colorScheme);
 ---
 
 <nav
-  class="w-full bg-white dark:bg-[#101012] p-2 border-b border-gray-200 dark:border-gray-700/50 text-white flex justify-between items-center"
+  class="sticky top-0 w-full z-50 bg-white dark:bg-[#101012] border-b border-slate-200 dark:border-white/5 transition-colors duration-300"
 >
-  <!-- Left Side -->
   <div
-    class="flex items-center gap-5 max-[900px]:w-full max-[900px]:justify-between"
+    class="max-w-[1600px] mx-auto p-3 flex justify-between items-center px-6"
   >
-    <!-- Logo and Sections -->
-    {
-      (
-        <a id="logo-text" href="/" class="flex items-center gap-2 dark:text-white text-slate-800">
-          <img id="logo-icon" src={logo.icon} />
-          {name}
-        </a>
-      )
-    }
-    <SectionsComponent/>
-    <!-- Menu -->
-    <button id="open-btn" class="hidden max-[900px]:block text-slate-300 cursor-pointer">
-      <MenuIcon width="30" height="30" />
-    </button>
-  </div>
-  <!-- Right Side -->
-  <div class="flex gap-4 items-center max-[900px]:hidden">
-    <!-- Search Button -->
-    <SearchBtn />
-    <!-- Theme & github icon -->
-    <div class="flex gap-4 items-center">
-      <button id="theme-toggle-btn" class="cursor-pointer">
-        <!-- <MoonIcon width="20" height="20" /> -->
+    <div
+      class="flex items-center gap-6 max-[900px]:w-full max-[900px]:justify-between"
+    >
+      {
+        (
+          <a
+            id="logo-text"
+            href="/"
+            class="flex items-center gap-2 dark:text-white text-slate-800 hover:opacity-80 transition-opacity"
+          >
+            <img id="logo-icon" src={SITE.logo.icon} class="w-8 h-8" />
+            <span class="font-bold text-lg tracking-tight">{SITE.name}</span>
+          </a>
+        )
+      }
+
+      <div
+        class="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden min-[900px]:block"
+      >
+      </div>
+
+      <SectionsComponent sections={NAV_SECTIONS} />
+      <button
+        id="open-btn"
+        class={`hidden max-[900px]:block text-slate-500 dark:text-slate-400 cursor-pointer ${theme.hoverBg} ${theme.hoverText} p-2 rounded-md transition-colors`}
+      >
+        <MenuIcon width="24" height="24" />
       </button>
-      <a href={github} class="dark:text-white text-black">
-        <GithubIcon width="20" height="20" />
-      </a>
+    </div>
+
+    <div class="flex gap-3 items-center max-[900px]:hidden">
+      <SearchBtn />
+
+      <div class="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2"></div>
+      <div class="flex gap-2 items-center">
+        <button
+          class={`theme-toggle-btn cursor-pointer p-2 text-slate-500 dark:text-slate-400 ${theme.hoverBg} ${theme.hoverText} rounded-md transition-all`}
+          aria-label="Switch theme"
+        >
+          <span class="block dark:hidden">
+            <MoonIcon width="20" height="20" />
+          </span>
+          <span class="hidden dark:block">
+            <SunIcon width="20" height="20" />
+          </span>
+        </button>
+        <a
+          href={SOCIALS.github.url}
+          class={`p-2 text-slate-500 dark:text-slate-400 ${theme.hoverBg} ${theme.hoverText} rounded-md transition-all`}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <GithubIcon width="20" height="20" />
+        </a>
+      </div>
     </div>
   </div>
 </nav>
