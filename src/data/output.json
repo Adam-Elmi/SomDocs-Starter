@@ -1,39 +1,45 @@
 [
   {
-    "content": "Adam Elmi",
-    "path": "adam",
-    "section": "get started"
-  },
-  {
+    "type": "folder",
+    "name": "docs",
+    "label": "Docs",
     "path": "docs",
-    "content": [
+    "children": [
       {
-        "path": "nice",
-        "title": "Nice",
-        "parent": "docs",
-        "section": "helloo"
+        "type": "file",
+        "name": "introduction",
+        "label": "Introduction",
+        "path": "docs/introduction"
       },
       {
-        "path": "welcome",
-        "title": "welcome",
-        "parent": "docs",
-        "section": "hello"
-      }
-    ]
-  },
-  {
-    "content": "Hello World",
-    "path": "hello",
-    "section": "get started"
-  },
-  {
-    "path": "learn",
-    "content": [
+        "type": "file",
+        "name": "installation",
+        "label": "Installation",
+        "path": "docs/installation"
+      },
       {
-        "path": "learn",
-        "title": "learn-ruby ",
-        "parent": "learn",
-        "section": "get started"
+        "type": "file",
+        "name": "configuration",
+        "label": "Configuration",
+        "path": "docs/configuration"
+      },
+      {
+        "type": "file",
+        "name": "writing-content",
+        "label": "Writing Content",
+        "path": "docs/writing-content"
+      },
+      {
+        "type": "file",
+        "name": "components",
+        "label": "Components",
+        "path": "docs/components"
+      },
+      {
+        "type": "file",
+        "name": "features",
+        "label": "Features",
+        "path": "docs/features"
       }
     ]
   }
