@@ -2,41 +2,60 @@
 import SidebarContents from "./SidebarContents.astro";
 import SearchBtn from "../components/SearchBtn.astro";
 import SectionsComponent from "./SectionsComponent.astro";
+import { NAV_SECTIONS } from "../constant/sections";
 import CloseIcon from "../icons/CloseIcon.astro";
 import MoonIcon from "../icons/MoonIcon.astro";
-import { logo } from "../../somdocs.data.json";
+import { SITE } from "../constant/site";
+
+import { colorScheme } from "../../somdocs.config.json";
+import { getTheme } from "../data/theme";
+const theme = getTheme(colorScheme);
 ---
 
 <aside
   id="sidebar"
-  class="dark:bg-[#101012] bg-white w-[300px] border-r border-gray-200 dark:border-gray-700/50 z-999 text-slate-200 flex flex-col max-[900px]:hidden max-[900px]:fixed inset-0 max-[900px]:w-full"
+  class="dark:bg-[#101012] bg-white w-[300px] border-r border-gray-200 dark:border-gray-700/50 z-[9999] text-slate-200 flex flex-col max-[900px]:hidden max-[900px]:fixed inset-0 max-[900px]:w-full max-[900px]:h-screen max-[900px]:bg-white max-[900px]:dark:bg-[#101012]"
 >
-  <!-- Upper Layer  -->
-  <div class="max-[900px]:flex hidden justify-between items-center w-full">
-    <img id="logo-icon" src={logo.icon} alt={logo.name} />
-    <button id="close-btn" class="cursor-pointer p-2 text-slate-400">
+  <div
+    class="max-[900px]:flex hidden justify-between items-center w-full p-4 border-b border-gray-200 dark:border-gray-700/50"
+  >
+    <div class="flex items-center gap-2">
+      <img
+        id="logo-icon"
+        src={SITE.logo.icon}
+        alt={SITE.logo.name}
+        class="w-8 h-8"
+      />
+      <span
+        class="font-bold text-lg tracking-tight text-slate-900 dark:text-white"
+        >{SITE.logo.name}</span
+      >
+    </div>
+    <button
+      id="close-btn"
+      class="cursor-pointer p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+    >
       <CloseIcon width="24" height="24" />
     </button>
   </div>
-  <!-- Header -->
   <div class="border-b border-slate-500/20 p-2">
     <SearchBtn is_full={true} />
   </div>
-  <!-- Theme -->
   <div
     class="max-[900px]:flex hidden gap-3 items-center justify-between w-full p-2 border-b border-gray-200 dark:border-gray-700/50"
   >
     <span class="font-semibold text-slate-600 dark:text-white">Theme</span>
     <button
-      id="theme-toggle-btn"
-      class="cursor-pointer p-2 rounded border-[1.5px] border-slate-400/15 hover:bg-gray-900/40"
+      class={`theme-toggle-btn cursor-pointer p-2 rounded border-[1.5px] border-slate-400/15 ${theme.hoverBg} ${theme.hoverBorder} transition-colors duration-200`}
+      aria-label="Switch theme"
     >
       <MoonIcon width="20" height="20" />
     </button>
   </div>
-  <!-- Sections & Contents -->
-  <div class="overflow-auto h-screen">
-    <SectionsComponent is_small_screen={true} />
+  <div
+    class="overflow-y-auto overflow-x-hidden h-screen hover:overflow-x-auto transition-all"
+  >
+    <SectionsComponent sections={NAV_SECTIONS} is_small_screen={true} />
     <SidebarContents />
-  </div> 
+  </div>
 </aside>
