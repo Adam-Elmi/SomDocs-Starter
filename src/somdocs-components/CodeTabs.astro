@@ -1,0 +1,151 @@
+---
+import Copy2Icon from "../icons/Copy2Icon.astro";
+---
+
+<div class="code-tabs-group block w-full">
+    <div
+        class="code-tabs-container w-full max-w-[1000px] my-6 rounded-md overflow-hidden bg-[#0d1117] border border-[#30363d] shadow-lg"
+    >
+        <div
+            class="flex items-center justify-between bg-[#161b22] border-b border-[#30363d] pr-4"
+        >
+            <div
+                class="tab-list flex items-center overflow-x-auto custom-scrollbar"
+                role="tablist"
+            >
+                <slot name="tabs" />
+            </div>
+
+            <button
+                class="copy-btn group relative p-1.5 hover:bg-[#30363d] rounded transition-colors cursor-pointer"
+                aria-label="Copy code"
+            >
+                <span
+                    class="text-[#8b949e] group-hover:text-white transition-colors"
+                >
+                    <Copy2Icon dimension={16} />
+                </span>
+                <span
+                    class="copy-tooltip absolute top-1/2 right-full mr-2 -translate-y-1/2 px-2 py-1 bg-black text-white text-[10px] rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap border border-[#30363d]"
+                >
+                    Copy
+                </span>
+            </button>
+        </div>
+
+        <div class="code-content p-0 overflow-x-auto custom-scrollbar">
+            <slot />
+        </div>
+    </div>
+</div>
+
+<script>
+    function initCodeTabs() {
+        const groups = document.querySelectorAll(".code-tabs-group");
+
+        groups.forEach((group) => {
+            if (group.hasAttribute("data-initialized")) return;
+
+            const tabsContainer = group.querySelector(".tab-list");
+            const contentContainer = group.querySelector(".code-content");
+
+            if (!tabsContainer || !contentContainer) return;
+
+            const panels = Array.from(
+                contentContainer.querySelectorAll(".code-tab"),
+            );
+
+            const switchTab = (index: number) => {
+                const buttons = Array.from(tabsContainer.children);
+
+                buttons.forEach((btn, i) => {
+                    if (i === index) {
+                        btn.className =
+                            "px-4 py-2 text-sm border-r border-[#30363d] transition-colors focus:outline-none whitespace-nowrap flex items-center gap-2 text-white bg-[#0d1117] border-b-2 border-b-[#f78166]";
+                    } else {
+                        btn.className =
+                            "px-4 py-2 text-sm border-r border-[#30363d] transition-colors focus:outline-none whitespace-nowrap flex items-center gap-2 text-[#8b949e] hover:text-white hover:bg-[#21262d] border-b-2 border-b-transparent";
+                    }
+                });
+
+                panels.forEach((panel, i) => {
+                    if (i === index) {
+                        panel.classList.remove("hidden");
+                    } else {
+                        panel.classList.add("hidden");
+                    }
+                });
+            };
+
+            panels.forEach((panel, index) => {
+                const title =
+                    panel.getAttribute("data-title") || `Tab ${index + 1}`;
+                const iconContainer = panel.querySelector(".code-tab-icon");
+                const iconHTML = iconContainer ? iconContainer.innerHTML : "";
+
+                const btn = document.createElement("button");
+                btn.className =
+                    "px-4 py-2 text-sm border-r border-[#30363d] transition-colors focus:outline-none whitespace-nowrap flex items-center gap-2 text-[#8b949e] hover:text-white hover:bg-[#21262d] border-b-2 border-b-transparent";
+
+                btn.innerHTML = iconHTML
+                    ? `<span class="flex items-center [&>svg]:w-4 [&>svg]:h-4">${iconHTML}</span>${title}`
+                    : title;
+
+                btn.addEventListener("click", () => {
+                    switchTab(index);
+                });
+
+                tabsContainer.appendChild(btn);
+            });
+
+            if (panels.length > 0) {
+                switchTab(0);
+            }
+
+            group.setAttribute("data-initialized", "true");
+        });
+    }
+
+    initCodeTabs();
+    document.addEventListener("astro:page-load", initCodeTabs);
+</script>
+
+<style is:global>
+    .code-tabs-container pre,
+    .code-tabs-container pre.astro-code,
+    .code-tabs-container pre.shiki {
+        counter-reset: step;
+        background-color: transparent !important;
+        margin: 0 !important;
+        padding: 1rem 0 !important;
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+        font-size: 0.875rem;
+        line-height: 1.6;
+    }
+    .code-tabs-container pre > code {
+        display: grid;
+    }
+    .code-tabs-container .line {
+        display: block;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        border-left: 2px solid transparent;
+        min-height: 1rem;
+    }
+    .code-tabs-container .line::before {
+        counter-increment: step;
+        content: counter(step);
+        display: inline-block;
+        width: 1.5rem;
+        margin-right: 1.5rem;
+        text-align: right;
+        color: #484f58;
+        font-size: 0.75rem;
+        font-family: inherit;
+        user-select: none;
+        -webkit-user-select: none;
+        border-right: 1px solid #30363d;
+        padding-right: 0.5rem;
+        line-height: inherit;
+    }
+</style>
