@@ -1,50 +1,35 @@
 ---
-import { sections, logo } from "../../somdocs.data.json";
 import List from "./List.astro";
 
-type DefaultSection = {
+type Section = {
   name: string;
   url: string;
   show_arrow: boolean;
 };
 
 type Props = {
-  defaultSections?: DefaultSection[];
+  sections?: Section[];
   is_small_screen?: boolean;
 };
 
-const {
-  defaultSections = [
-    { name: "Docs", url: "/", show_arrow: false },
-  ],
-  is_small_screen = false,
-} = Astro.props as Props;
-
-const { contents } = sections;
+const { sections = [], is_small_screen = false } = Astro.props as Props;
 ---
 
 <ul
-  class={`${is_small_screen ? "hidden max-[900px]:flex" : "flex max-[900px]:hidden"} gap-2 max-[900px]:flex-col max-[900px]:border-b-[1.5px] border-slate-400/15`}
+  class={`${is_small_screen ? "hidden max-[900px]:flex p-4" : "flex max-[900px]:hidden"} gap-1 max-[900px]:flex-col max-[900px]:border-b-[1.5px] border-slate-400/15`}
 >
   {
-    contents && contents.length > 0
-      ? contents.map((section: DefaultSection) => (
-          <List
-            id="section"
-            url={section.url && (section.show_arrow ? "https://" + section.url : section.url)}
-            show_arrow={section.show_arrow}
-          >
-            {section.name && section.name}
-          </List>
-        ))
-      : defaultSections.map((default_section) => (
-          <List
-            id="section"
-            url={default_section.url}
-            show_arrow={default_section.show_arrow}
-          >
-            {default_section.name}
-          </List>
-        ))
+    sections.map((section) => (
+      <List
+        id="section"
+        url={
+          section.url &&
+          (section.show_arrow ? "https://" + section.url : section.url)
+        }
+        show_arrow={section.show_arrow}
+      >
+        {section.name}
+      </List>
+    ))
   }
 </ul>
